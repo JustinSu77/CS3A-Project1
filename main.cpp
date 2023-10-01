@@ -133,7 +133,22 @@ void run()
 		cout << "Invalid option! Exiting program!" << endl;
 		exit(1);
 	}
-	cout << userChoice << endl;
+	switch (userChoice)
+	{
+		case 1:
+			cout << "Showing all course lists (sorting)" << endl;
+			break;
+		case 2:
+			cout << "Listing all students who take all courses" << endl;
+			break;
+		case 3:
+			cout << "Listing all students who take 2 courses" << endl;
+			break;
+		case 4:
+			cout << "Printing out top three scores for each course" << endl;
+		default:
+			cout << "  Exiting....";
+	}
 }
 
  
