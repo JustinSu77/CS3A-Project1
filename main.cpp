@@ -12,9 +12,11 @@ struct Course
 	int number_of_students;
 	Student* list;
 };
+
 // Text files
 void getFilesToOpen(string* filesToOpen, int arraySize);
 void checkIfFilesExist(string* filesToOpen, int arraySize);
+
 int main()
 {
 	// Get files and check if they can be opened
@@ -23,7 +25,8 @@ int main()
 	string* filesToOpen = new string[ARRAY_SIZE];
 	getFilesToOpen(filesToOpen, ARRAY_SIZE);
 	checkIfFilesExist(filesToOpen, ARRAY_SIZE);
-	
+	// Creates the data structure
+
 	
 	
 	
