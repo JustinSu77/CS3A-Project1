@@ -16,6 +16,8 @@ struct Course
 // Text files
 void getFilesToOpen(string* filesToOpen, int arraySize);
 void checkIfFilesExist(string* filesToOpen, int arraySize);
+// Create data structure
+void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 
 int main()
 {
@@ -26,9 +28,10 @@ int main()
 	getFilesToOpen(filesToOpen, ARRAY_SIZE);
 	checkIfFilesExist(filesToOpen, ARRAY_SIZE);
 	// Creates the data structure
-
-	
-	
+	struct Course* courseArray = new Course[ARRAY_SIZE];
+	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
+	cout << endl;
+	 
 	
 	delete[] filesToOpen;
 	
@@ -62,3 +65,33 @@ void checkIfFilesExist(string* filesToOpen, int arraySize)
 		inputFile.close();
 	}
 }
+
+void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
+{
+	ifstream inputFile;
+	for (int i = 0; i < arraySize; i++)
+	{
+		string fileName = filesToOpen[i];
+		inputFile.open(fileName);
+		int numberOfStudents = 0;
+		string title = "";
+		inputFile >> title >> numberOfStudents;
+		Student* studentArray = new Student[numberOfStudents];
+		int index = 0;
+		int id = 0;
+		string name = "";
+		int score = 0;
+		while (!inputFile.eof() && index < numberOfStudents)
+		{
+			inputFile >> id >> name >> score;
+			Student student(id, name, score);
+			studentArray[index] = student;
+			index++;
+		}
+		struct Course newCourse = { title, numberOfStudents, studentArray };
+		courseArray[i] = newCourse;
+		inputFile.close();
+	}
+}
+
+ 
