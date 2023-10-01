@@ -19,6 +19,10 @@ void checkIfFilesExist(string* filesToOpen, int arraySize);
 // Create data structure
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 void deallocateCourseArray(struct Course* courseArray, int arraySize);
+ 
+// Run program
+void showMenu(int& userChoice);
+void run();
 int main()
 {
 	// Get files and check if they can be opened
@@ -31,7 +35,7 @@ int main()
 	struct Course* courseArray = new Course[ARRAY_SIZE];
 	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
 	cout << endl;
-	 
+	run();
 	
 	delete[] filesToOpen;
 	deallocateCourseArray(courseArray, ARRAY_SIZE);
@@ -102,6 +106,34 @@ void deallocateCourseArray(Course* courseArray, int arraySize)
 		delete[] course.list;
 	}
 	delete[] courseArray;
+}
+
+void showMenu(int& userChoice)
+{
+	cout << endl;
+	cout << endl;
+	cout << "================= Menu =====================" << endl;
+	cout << "  1. Show all course lists (sorting)" << endl;
+	cout << "  2. List of students who take all courses" << endl;
+	cout << "  3. List of students who take two courses" << endl;
+	cout << "  4. Print out top three scores for each course" << endl;
+	cout << "  5. Exit" << endl;
+	cout << "  ----> Select : ";
+	cin >> userChoice;
+
+}
+
+void run()
+{
+	int userChoice = 0;
+	showMenu(userChoice);
+	if (userChoice < 1 || userChoice > 5)
+	{
+		cout << endl;
+		cout << "Invalid option! Exiting program!" << endl;
+		exit(1);
+	}
+	cout << userChoice << endl;
 }
 
  
