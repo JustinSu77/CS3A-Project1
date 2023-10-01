@@ -18,7 +18,7 @@ void getFilesToOpen(string* filesToOpen, int arraySize);
 void checkIfFilesExist(string* filesToOpen, int arraySize);
 // Create data structure
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
-
+void deallocateCourseArray(struct Course* courseArray, int arraySize);
 int main()
 {
 	// Get files and check if they can be opened
@@ -34,7 +34,7 @@ int main()
 	 
 	
 	delete[] filesToOpen;
-	
+	deallocateCourseArray(courseArray, ARRAY_SIZE);
 	return 0;
 }
 
@@ -92,6 +92,16 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 		courseArray[i] = newCourse;
 		inputFile.close();
 	}
+}
+
+void deallocateCourseArray(Course* courseArray, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		struct Course course = courseArray[i];
+		delete[] course.list;
+	}
+	delete[] courseArray;
 }
 
  
