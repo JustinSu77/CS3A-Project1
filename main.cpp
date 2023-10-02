@@ -26,6 +26,10 @@ void run();
 
 //Tasks
 
+
+
+// Test functions
+void outputCourseArray(struct Course* courseArray, int arraySize);
 int main()
 {
 	// Get files and check if they can be opened
@@ -37,6 +41,7 @@ int main()
 	// Creates the data structure
 	
 	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
+	outputCourseArray(courseArray, ARRAY_SIZE);
 	cout << endl;
 	run();
 	
@@ -151,6 +156,23 @@ void run()
 			cout << "Printing out top three scores for each course" << endl;
 		default:
 			cout << "  Exiting....";
+	}
+}
+
+void outputCourseArray(Course* courseArray, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		struct Course course = courseArray[i];
+		int courseSize = course.number_of_students;
+		cout << course.title << " " << courseSize << endl;
+		Student* list = course.list;
+		for (int i = 0; i < courseSize; i++)
+		{
+			Student student = list[i];
+			cout << student.getId() << " " << student.getName() << " " << student.getScore() << endl;
+		}
+		cout << endl;
 	}
 }
 
