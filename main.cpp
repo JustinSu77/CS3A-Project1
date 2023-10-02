@@ -18,27 +18,30 @@ void getFilesToOpen(string* filesToOpen, int arraySize);
 void checkIfFilesExist(string* filesToOpen, int arraySize);
 // Create data structure
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
-void deallocateCourseArray(struct Course* courseArray, int arraySize);
+void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
  
 // Run program
 void showMenu(int& userChoice);
 void run();
+
+//Tasks
+
 int main()
 {
 	// Get files and check if they can be opened
-	const int NUMBER_OF_FILES = 3;
-	const int ARRAY_SIZE = NUMBER_OF_FILES;
+	struct Course courseArray[3];
+	int ARRAY_SIZE = sizeof(courseArray) / sizeof(struct Course);
 	string* filesToOpen = new string[ARRAY_SIZE];
 	getFilesToOpen(filesToOpen, ARRAY_SIZE);
 	checkIfFilesExist(filesToOpen, ARRAY_SIZE);
 	// Creates the data structure
-	struct Course* courseArray = new Course[ARRAY_SIZE];
+	
 	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
 	cout << endl;
 	run();
 	
 	delete[] filesToOpen;
-	deallocateCourseArray(courseArray, ARRAY_SIZE);
+	deallocateStudentListInCourseArray(courseArray, ARRAY_SIZE);
 	return 0;
 }
 
@@ -98,14 +101,14 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 	}
 }
 
-void deallocateCourseArray(Course* courseArray, int arraySize)
+void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
 {
 	for (int i = 0; i < arraySize; i++)
 	{
 		struct Course course = courseArray[i];
 		delete[] course.list;
 	}
-	delete[] courseArray;
+	 
 }
 
 void showMenu(int& userChoice)
