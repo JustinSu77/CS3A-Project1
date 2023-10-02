@@ -22,10 +22,12 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
  
 // Run program
 void showMenu(int& userChoice);
-void run();
+void run(struct Course* array, int arraySize);
 
 //Tasks
-
+// Show all course lists (sorting)
+void insertionSortById(Student* array, int arraySize);
+void showAllCourseLists(struct Course* array, int arraySize);
 
 
 // Test functions
@@ -41,9 +43,9 @@ int main()
 	// Creates the data structure
 	
 	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
-	outputCourseArray(courseArray, ARRAY_SIZE);
+	//outputCourseArray(courseArray, ARRAY_SIZE);
 	cout << endl;
-	run();
+	run(courseArray, ARRAY_SIZE);
 	
 	delete[] filesToOpen;
 	deallocateStudentListInCourseArray(courseArray, ARRAY_SIZE);
@@ -129,6 +131,22 @@ void showMenu(int& userChoice)
 	cout << "  ----> Select : ";
 	cin >> userChoice;
 
+}
+
+void insertionSortById(Student* array, int arraySize)
+{
+	int j = 0;
+	for (int i = 1; i < arraySize; i++)
+	{
+		Student key = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j].getId() > key.getId())
+		{
+			array[j + 1] = array[j];
+			j--;
+		}
+		array[j + 1] = key;
+	}
 }
 
 void run()
