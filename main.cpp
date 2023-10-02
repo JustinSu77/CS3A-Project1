@@ -149,7 +149,29 @@ void insertionSortById(Student* array, int arraySize)
 	}
 }
 
-void run()
+void showAllCourseLists(struct Course* array, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		struct Course course = array[i];
+		int courseSize = course.number_of_students;
+		cout << "==========  " << course.title << "  ==========" << endl;
+		cout << endl;
+		cout << endl;
+		Student* list = course.list;
+		insertionSortById(list, courseSize);
+		for (int i = 0; i < courseSize; i++)
+		{
+			Student student = list[i];
+			cout << "    " << student.getId() << "    " << student.getName() << "  " << student.getScore() << endl;
+		}
+		cout << endl;
+	}
+}
+
+ 
+
+void run(struct Course* array, int arraySize)
 {
 	int userChoice = 0;
 	showMenu(userChoice);
@@ -162,7 +184,7 @@ void run()
 	switch (userChoice)
 	{
 		case 1:
-			cout << "Showing all course lists (sorting)" << endl;
+			showAllCourseLists(array, arraySize);
 			break;
 		case 2:
 			cout << "Listing all students who take all courses" << endl;
