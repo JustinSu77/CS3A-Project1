@@ -35,7 +35,11 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 void outputStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 
- 
+// List of students who take only take 2 courses
+void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray);
+int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize,Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
+void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
+bool idExistsInList (Student* list, int listSize, int id);
 
 
 // Test functions
@@ -129,8 +133,7 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 
 void showMenu(int& userChoice)
 {
-	cout << endl;
-	cout << endl;
+	
 	cout << "================= Menu =====================" << endl;
 	cout << "  1. Show all course lists (sorting)" << endl;
 	cout << "  2. List of students who take all courses" << endl;
@@ -256,6 +259,96 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 	 
 }
 
+void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
+{
+	struct Course courseOne = courseArray[0];
+	struct Course courseTwo = courseArray[1];
+	struct Course courseThree = courseArray[2];
+	Student* listOne = courseOne.list;
+	Student* listTwo = courseTwo.list;
+	Student* listThree = courseThree.list;
+	
+	string courseOneName = courseOne.title;
+	string courseTwoName = courseTwo.title;
+	string courseThreeName = courseThree.title;
+	int courseOneSize = courseOne.number_of_students;
+	int courseTwoSize = courseTwo.number_of_students;
+	int courseThreeSize = courseThree.number_of_students;
+	// Count students who are in courseOne and courseTwo but no int courseThree
+	int studentsOne = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listTwo, courseTwoSize, listThree, courseThreeSize);
+	cout << endl;
+	cout << " There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
+	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseTwoName, listTwo, courseTwoSize, listThree, courseThreeSize);
+	cout << endl;
+	int studentsTwo = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listThree,courseThreeSize, listTwo, courseTwoSize);
+	cout << " There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
+
+	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseThreeName, listThree, courseThreeSize, listTwo, courseTwoSize);
+	cout << endl;
+	int studentsThree = totalStudentsWhoTakeTwoCourses(listTwo, courseTwoSize, listThree, courseThreeSize, listOne, courseOneSize);
+	cout << " There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
+	outputStudentsWhoTakeTwoCourses(courseTwoName, listTwo, courseTwoSize, courseThreeName, listThree, courseThreeSize, listOne, courseOneSize);
+}
+
+int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
+{
+	int result = 0;
+	for (int i = 0; i < listOneSize; i++)
+	{
+		for (int j = 0; j < listTwoSize; j++)
+		{
+			int idFromCourseOne = listOne[i].getId();
+			int idFromCourseTwo = listTwo[j].getId();
+			if (idFromCourseOne == idFromCourseTwo && (!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
+			{
+				result++;
+			}
+		}
+	}
+	return result;
+}
+
+void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
+{
+	insertionSortById(listOne, listOneSize);
+	insertionSortById(listTwo, listTwoSize);
+	for (int i = 0; i < listOneSize; i++)
+	{
+		for (int j = 0; j < listTwoSize; j++)
+		{
+			int idFromCourseOne = listOne[i].getId();
+			int idFromCourseTwo = listTwo[j].getId();
+			string nameFromCourseOne = listOne[i].getName();
+			string nameFromCourseTwo = listTwo[j].getName();
+			int scoreFromCourseOne = listOne[i].getScore();
+			int scoreFromCourseTwo = listTwo[j].getScore();
+			if (idFromCourseOne == idFromCourseTwo && (!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
+			{
+				cout << " " << idFromCourseOne << setw(10) << nameFromCourseOne << setw(10) << courseOneTitle << "(" << scoreFromCourseOne << ")" << " " << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
+			}
+		}
+	}
+
+}
+
+ 
+ 
+
+
+
+bool idExistsInList(Student* list, int listSize, int id)
+{
+	for (int i = 0; i < listSize; i++)
+	{
+		Student student = list[i];
+		if (student.getId() == id)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
  
 
 void run(struct Course* array, int arraySize)
@@ -277,10 +370,11 @@ void run(struct Course* array, int arraySize)
 			listOfStudentsWhoTakeAllThreeCourses(array);
 			break;
 		case 3:
-			cout << "Listing all students who take 2 courses" << endl;
+			listOfStudentsWhoTakeTwoCourses(array);
 			break;
 		case 4:
 			cout << "Printing out top three scores for each course" << endl;
+			break;
 		default:
 			cout << "  Exiting....";
 	}
