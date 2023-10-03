@@ -29,9 +29,17 @@ void run(struct Course* array, int arraySize);
 void insertionSortById(Student* array, int arraySize);
 void showAllCourseLists(struct Course* array, int arraySize);
 
+// List of students who take all courses
+void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
+int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
+void outputStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
+
+ 
+
 
 // Test functions
 void outputCourseArray(struct Course* courseArray, int arraySize);
+
 int main()
 {
 	// Get files and check if they can be opened
@@ -169,6 +177,47 @@ void showAllCourseLists(struct Course* array, int arraySize)
 	}
 }
 
+void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
+{
+	struct Course courseOne = courseArray[0];
+	struct Course courseTwo = courseArray[1];
+	struct Course courseThree = courseArray[2];
+	int students = totalStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
+	cout << endl;
+	cout << "    There are " << students << " students who take 3 courses      " << endl;
+	cout << "=================================================" << endl;
+}
+
+int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree)
+{
+	 
+	int courseOneSize = courseOne.number_of_students;
+	int courseTwoSize = courseTwo.number_of_students;
+	int courseThreeSize = courseThree.number_of_students;
+	Student* courseOneList = courseOne.list;
+	Student* courseTwoList = courseTwo.list;
+	Student* courseThreeList = courseThree.list;
+	int total = 0;
+	for (int i = 0; i < courseOneSize; i++)
+	{
+		for (int j = 0; j < courseTwoSize; j++)
+		{
+			for (int k = 0; k < courseThreeSize; k++)
+			{
+				Student courseOneStudent = courseOneList[i];
+				Student courseTwoStudent = courseTwoList[j];
+				Student courseThreeStudent = courseThreeList[k];
+				if (courseOneStudent.getId() == courseTwoStudent.getId() 
+					&& courseOneStudent.getId()== courseThreeStudent.getId())
+				{
+					total++;
+				}
+			}
+		}
+	}
+	return total;
+}
+
  
 
 void run(struct Course* array, int arraySize)
@@ -187,7 +236,7 @@ void run(struct Course* array, int arraySize)
 			showAllCourseLists(array, arraySize);
 			break;
 		case 2:
-			cout << "Listing all students who take all courses" << endl;
+			listOfStudentsWhoTakeAllThreeCourses(array);
 			break;
 		case 3:
 			cout << "Listing all students who take 2 courses" << endl;
