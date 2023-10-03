@@ -41,9 +41,14 @@ int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize,Student* li
 void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 bool idExistsInList (Student* list, int listSize, int id);
 
+// Print out top three students for each course
+void printOutTopThreeStudentsForEachCourse(struct Course* courseArray, int arraySize);
+void insertionSortByScore(Student* array, int arraySize);
+void printStudentsWithGivenScore(Student* array, int arraySize, int score);
 
 // Test functions
 void outputCourseArray(struct Course* courseArray, int arraySize);
+Student* copyStudentList(Student* array, int arraySize);
 
 int main()
 {
@@ -145,6 +150,73 @@ void showMenu(int& userChoice)
 
 }
 
+void printOutTopThreeStudentsForEachCourse(Course* courseArray, int arraySize)
+{
+	cout << endl;
+	for (int i = 0; i < arraySize; i++)
+	{
+		Course course = courseArray[i];
+		string title = course.title;
+		int courseSize = course.number_of_students;
+		if (courseSize < 3)
+		{
+			cout << "Student list size has to be greater than 3" << endl;
+			return;
+		}
+		Student* list = course.list;
+		insertionSortById(list, courseSize);
+		insertionSortByScore(list, courseSize);
+		cout << "[  " << title << " Top Three Scores  ]" << endl;
+		int scoresSeen = 0;
+		int index = courseSize - 1;
+		bool scoreSeen[101] = {};
+		while (scoresSeen < 3)
+		{
+			int score = list[index].getScore();
+			if (scoreSeen[score - 1] == false)
+			{
+				cout << (scoresSeen + 1) << ".  " << score << endl;
+				printStudentsWithGivenScore(list, courseSize, score);
+				scoreSeen[score - 1] = true;
+				scoresSeen++;
+			}
+			index--;
+		}
+		cout << endl;
+	}
+
+}
+
+void insertionSortByScore(Student* array, int arraySize)
+{
+	int j = 0;
+	for (int i = 1; i < arraySize; i++)
+	{
+		Student key = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j].getScore() > key.getScore())
+		{
+			array[j + 1] = array[j];
+			j--;
+		}
+		array[j + 1] = key;
+	}
+}
+
+void printStudentsWithGivenScore(Student* array, int arraySize, int score)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		Student student = array[i];
+		if (student.getScore() == score)
+		{
+			cout << "    " << student.getId() << setw(10) << student.getName() << endl;
+		}
+	}
+}
+
+
+
 void insertionSortById(Student* array, int arraySize)
 {
 	int j = 0;
@@ -177,6 +249,7 @@ void showAllCourseLists(struct Course* array, int arraySize)
 			Student student = list[i];
 			cout << "    " << student.getId() << "    " << student.getName() << "  " << student.getScore() << endl;
 		}
+	
 		cout << endl;
 	}
 }
@@ -364,7 +437,9 @@ void run(struct Course* array, int arraySize)
 	switch (userChoice)
 	{
 		case 1:
+			outputCourseArray(array, arraySize);
 			showAllCourseLists(array, arraySize);
+			outputCourseArray(array, arraySize);
 			break;
 		case 2:
 			listOfStudentsWhoTakeAllThreeCourses(array);
@@ -373,7 +448,7 @@ void run(struct Course* array, int arraySize)
 			listOfStudentsWhoTakeTwoCourses(array);
 			break;
 		case 4:
-			cout << "Printing out top three scores for each course" << endl;
+			printOutTopThreeStudentsForEachCourse(array, arraySize);
 			break;
 		default:
 			cout << "  Exiting....";
@@ -395,6 +470,16 @@ void outputCourseArray(Course* courseArray, int arraySize)
 		}
 		cout << endl;
 	}
+}
+
+Student* copyStudentList(Student* array, int arraySize)
+{
+	Student* newArray = new Student[arraySize];
+	for (int i = 0; i < arraySize; i++)
+	{
+		newArray[i] = array[i];
+	}
+	return newArray;
 }
 
  
