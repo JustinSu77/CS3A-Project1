@@ -5,6 +5,7 @@
 **/
 #include <string>
 #include <fstream>
+#include <iomanip>
 #include "Student.h"
 struct Course
 {
@@ -186,6 +187,8 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	cout << endl;
 	cout << "    There are " << students << " students who take 3 courses      " << endl;
 	cout << "=================================================" << endl;
+ 
+	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
 
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree)
@@ -216,6 +219,41 @@ int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course c
 		}
 	}
 	return total;
+}
+
+void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Course courseThree)
+{
+	int courseOneSize = courseOne.number_of_students;
+	int courseTwoSize = courseTwo.number_of_students;
+	int courseThreeSize = courseThree.number_of_students;
+	Student* courseOneList = courseOne.list;
+	Student* courseTwoList = courseTwo.list;
+	Student* courseThreeList = courseThree.list;
+	string courseOneTitle = courseOne.title;
+	string courseTwoTitle = courseTwo.title;
+	string courseThreeTitle = courseThree.title;
+	for (int i = 0; i < courseOneSize; i++)
+	{
+		for (int j = 0; j < courseTwoSize; j++)
+		{
+			for (int k = 0; k < courseThreeSize; k++)
+			{
+				Student fromCourseOne = courseOneList[i];
+				Student fromCourseTwo = courseTwoList[j];
+				Student fromCourseThree = courseThreeList[k];
+				if (fromCourseOne.getId() == fromCourseTwo.getId()
+					&& fromCourseOne.getId() == fromCourseThree.getId())
+				{
+					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName() 
+						<< " " << courseOneTitle << "(" << fromCourseOne.getScore() << ")" 
+						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
+						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;
+					 
+				}
+			}
+		}
+	}
+	 
 }
 
  
