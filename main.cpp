@@ -1,12 +1,15 @@
 /**
 	Date: 10/1/2023
 	By: Justin Su
-	Purpose: Project #1
+	Purpose: main.cpp for Project #1
 **/
+
 #include <string>
 #include <fstream>
 #include <iomanip>
 #include "Student.h"
+
+// Structure to store data of a course
 struct Course
 {
 	string title;
@@ -15,8 +18,26 @@ struct Course
 };
 
 // Text files
+/**
+	Prompt user for file names for files to be opened.
+	Precondition: Given string dynamic array filesToOpen is initialized and has some elements.
+	Postcondition: Given string dynamic array filesToOpen is filled with strings by user.
+		filesToOpen as string dynamic array
+		arraySize as number of elements in given string dynamic array
+**/
 void getFilesToOpen(string* filesToOpen, int arraySize);
+
+/**
+	Open each element of the given string dynamic array filesToOpen as a file.
+	Notify and exit program with error code 1 if a file fails to open.
+	Precondition: Given string dynamic array filesToOpen has some elements.
+	Postcondition: If element of filesToOpen fails to open as a file, 
+				   notify and exit program with error code 1
+	filesToOpen as string dynamic array
+	arraySize as number of elements in filesToOpen as int
+**/
 void checkIfFilesExist(string* filesToOpen, int arraySize);
+
 // Create data structure
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
@@ -48,52 +69,73 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int score);
 
 // Test functions
 void outputCourseArray(struct Course* courseArray, int arraySize);
-Student* copyStudentList(Student* array, int arraySize);
+
 
 int main()
 {
-	// Get files and check if they can be opened
+	// Declare and initialize struct Course array
 	struct Course courseArray[3];
-	int ARRAY_SIZE = sizeof(courseArray) / sizeof(struct Course);
+	// Declare and initialize variable for size of courseArray
+	const int ARRAY_SIZE = sizeof(courseArray) / sizeof(struct Course);
+	// Declare and initialize dynamic string array to store the names of text files to open 
 	string* filesToOpen = new string[ARRAY_SIZE];
+	// Call function to get fileNames from user
 	getFilesToOpen(filesToOpen, ARRAY_SIZE);
+	// Check if each of the given fileName exists
 	checkIfFilesExist(filesToOpen, ARRAY_SIZE);
-	// Creates the data structure
-	
+	// Creates the data structure for the program from the given files
 	fillCourseArrayFromFiles(courseArray, filesToOpen, ARRAY_SIZE);
-	//outputCourseArray(courseArray, ARRAY_SIZE);
+	// Skip a line for terminal readability 
 	cout << endl;
+	// Run the program
 	run(courseArray, ARRAY_SIZE);
 	
+	// Deallocate string dynamic array
 	delete[] filesToOpen;
+	// Deallocate the student dynamic array in each course element of courseArray
 	deallocateStudentListInCourseArray(courseArray, ARRAY_SIZE);
+	
 	return 0;
 }
 
 void getFilesToOpen(string* filesToOpen, int arraySize)
 {
+	// Declare and initialize variable to store fileName
 	string fileName = "";
+	// Loop through given string dynamic array
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Prompt user for fileName
 		cout << "Enter filename #" << (i + 1) << " : ";
+		// Save string from user into fileName variable
 		getline(cin, fileName);
+		// Set current index of dynamic array to given fileName
 		filesToOpen[i] = fileName;
 	}
 }
 
 void checkIfFilesExist(string* filesToOpen, int arraySize)
 {
+	// Declare ifstream object
 	ifstream inputFile;
+	// Loop through given string dynamic array filesToOpen
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Declare and initialize variable to store current element
 		string fileName = filesToOpen[i];
+		// Open fileName as file
 		inputFile.open(fileName);
+		// If file failed to open
 		if (inputFile.fail())
 		{
+			// Skip a line for terminal readability
 			cout << endl;
+			// notify
 			cout << "Failed to open " << fileName << endl;
+			// Exit program with error code 1
 			exit(1);
 		}
+		// Close ifstream object
 		inputFile.close();
 	}
 }
@@ -240,7 +282,6 @@ void showAllCourseLists(struct Course* array, int arraySize)
 		struct Course course = array[i];
 		int courseSize = course.number_of_students;
 		cout << "==========  " << course.title << "  ==========" << endl;
-		cout << endl;
 		cout << endl;
 		Student* list = course.list;
 		insertionSortById(list, courseSize);
@@ -404,11 +445,6 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 
 }
 
- 
- 
-
-
-
 bool idExistsInList(Student* list, int listSize, int id)
 {
 	for (int i = 0; i < listSize; i++)
@@ -437,9 +473,7 @@ void run(struct Course* array, int arraySize)
 	switch (userChoice)
 	{
 		case 1:
-			outputCourseArray(array, arraySize);
 			showAllCourseLists(array, arraySize);
-			outputCourseArray(array, arraySize);
 			break;
 		case 2:
 			listOfStudentsWhoTakeAllThreeCourses(array);
@@ -472,14 +506,5 @@ void outputCourseArray(Course* courseArray, int arraySize)
 	}
 }
 
-Student* copyStudentList(Student* array, int arraySize)
-{
-	Student* newArray = new Student[arraySize];
-	for (int i = 0; i < arraySize; i++)
-	{
-		newArray[i] = array[i];
-	}
-	return newArray;
-}
 
  
