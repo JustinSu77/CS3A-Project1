@@ -3,8 +3,12 @@
 	By: Justin Su
 	Purpose: main.cpp for Project #1
 **/
+
+#include <string>
+#include <fstream>
+#include <iomanip>
 #include "Student.h"
- 
+
 // Structure to store data of a course
 struct Course
 {
@@ -12,86 +16,6 @@ struct Course
 	int number_of_students;
 	Student* list;
 };
-// Text files
-/**
-	Prompt user for file names for files to be opened.
-	Precondition: Given string dynamic array filesToOpen is initialized and has some elements.
-	Postcondition: Given string dynamic array filesToOpen is filled with strings by user.
-		filesToOpen as string dynamic array
-		arraySize as number of elements in given string dynamic array
-**/
-void getFilesToOpen(string* filesToOpen, int arraySize);
-
-/**
-	Open each element of the given string dynamic array filesToOpen as a file.
-	Notify and exit program with error code 1 if a file fails to open.
-	Precondition: Given string dynamic array filesToOpen has some elements.
-	Postcondition: If element of filesToOpen fails to open as a file,
-				   notify and exit program with error code 1
-	filesToOpen as string dynamic array
-	arraySize as number of elements in filesToOpen as int
-**/
-void checkIfFilesExist(string* filesToOpen, int arraySize);
-
-// Create data structure
-/**
-	Fill given struct Course dynamic array with data from text files in filesToOpen string dynamic array.
-	Loop through the courseArray and filesToOpen array
-	Read the data from file and initialize a struct Course variable with the read data.
-	Assign the struct to the corresponding index of the courseArray
-	Precondition: Given filesToOpen is filled with file names to open.
-	Postcondition: Given courseArray is filled with struct Course variables created with data from file.
-		courseArray as struct Course dynamic array.
-		filesToOpen as string dynamic array
-		arraySize as the size of both given dynamic arrays
-**/
-void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
-void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
-
-// Run program
-/**
-	Show the user the five task options to run for this program.
-	Precondition: User enters a number between 1 and 5
-	Postcondition: The user input is saved is passed as reference to the run function.
-		userChoice as the option to run as int reference
-**/
-void showMenu(int& userChoice);
-
-/**
-	Show the user the menu and run task corresponding to the given option.
-	Precondition: User chooses a option 1 through 5.
-	Postcondition: The function corresponding to the chosen option is ran and program exit 0
-		array as array of type struct Course
-		arraySize as size of given array as int
-**/
-void run(struct Course* array, int arraySize);
-
-//Tasks
-// Show all course lists (sorting)
-void insertionSortById(Student* array, int arraySize);
-void showAllCourseLists(struct Course* array, int arraySize);
-
-// List of students who take all courses
-void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
-int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
-void outputStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
-
-// List of students who take only take 2 courses
-void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray);
-int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
-void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
-bool idExistsInList(Student* list, int listSize, int id);
-
-// Print out top three students for each course
-void printOutTopThreeStudentsForEachCourse(struct Course* courseArray, int arraySize);
-void insertionSortByScore(Student* array, int arraySize);
-void printStudentsWithGivenScore(Student* array, int arraySize, int score);
-
-// Test functions
-void outputCourseArray(struct Course* courseArray, int arraySize);
-
-
-
 int main()
 {
 	// Declare and initialize struct Course array
@@ -220,22 +144,6 @@ void run(struct Course* array, int arraySize)
 	}
 }
 
-void insertionSortById(Student* array, int arraySize)
-{
-	int j = 0;
-	for (int i = 1; i < arraySize; i++)
-	{
-		Student key = array[i];
-		j = i - 1;
-		while (j >= 0 && array[j].getId() > key.getId())
-		{
-			array[j + 1] = array[j];
-			j--;
-		}
-		array[j + 1] = key;
-	}
-}
-
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
 {
 	ifstream inputFile;
@@ -271,7 +179,7 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 		struct Course course = courseArray[i];
 		delete[] course.list;
 	}
-
+	 
 }
 
 
@@ -329,6 +237,36 @@ void insertionSortByScore(Student* array, int arraySize)
 	}
 }
 
+void printStudentsWithGivenScore(Student* array, int arraySize, int score)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		Student student = array[i];
+		if (student.getScore() == score)
+		{
+			cout << "    " << student.getId() << setw(10) << student.getName() << endl;
+		}
+	}
+}
+
+
+
+void insertionSortById(Student* array, int arraySize)
+{
+	int j = 0;
+	for (int i = 1; i < arraySize; i++)
+	{
+		Student key = array[i];
+		j = i - 1;
+		while (j >= 0 && array[j].getId() > key.getId())
+		{
+			array[j + 1] = array[j];
+			j--;
+		}
+		array[j + 1] = key;
+	}
+}
+
 void showAllCourseLists(struct Course* array, int arraySize)
 {
 	for (int i = 0; i < arraySize; i++)
@@ -344,28 +282,10 @@ void showAllCourseLists(struct Course* array, int arraySize)
 			Student student = list[i];
 			cout << "    " << student.getId() << "    " << student.getName() << "  " << student.getScore() << endl;
 		}
-
+	
 		cout << endl;
 	}
 }
-
-void printStudentsWithGivenScore(Student* array, int arraySize, int score)
-{
-	for (int i = 0; i < arraySize; i++)
-	{
-		Student student = array[i];
-		if (student.getScore() == score)
-		{
-			cout << "    " << student.getId() << setw(10) << student.getName() << endl;
-		}
-	}
-}
-
-
-
-
-
-
 
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 {
@@ -376,13 +296,13 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	cout << endl;
 	cout << "    There are " << students << " students who take 3 courses      " << endl;
 	cout << "=================================================" << endl;
-
+ 
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
 
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree)
 {
-
+	 
 	int courseOneSize = courseOne.number_of_students;
 	int courseTwoSize = courseTwo.number_of_students;
 	int courseThreeSize = courseThree.number_of_students;
@@ -399,8 +319,8 @@ int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course c
 				Student courseOneStudent = courseOneList[i];
 				Student courseTwoStudent = courseTwoList[j];
 				Student courseThreeStudent = courseThreeList[k];
-				if (courseOneStudent.getId() == courseTwoStudent.getId()
-					&& courseOneStudent.getId() == courseThreeStudent.getId())
+				if (courseOneStudent.getId() == courseTwoStudent.getId() 
+					&& courseOneStudent.getId()== courseThreeStudent.getId())
 				{
 					total++;
 				}
@@ -433,16 +353,16 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 				if (fromCourseOne.getId() == fromCourseTwo.getId()
 					&& fromCourseOne.getId() == fromCourseThree.getId())
 				{
-					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
-						<< " " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
+					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName() 
+						<< " " << courseOneTitle << "(" << fromCourseOne.getScore() << ")" 
 						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
 						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;
-
+					 
 				}
 			}
 		}
 	}
-
+	 
 }
 
 void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
@@ -465,7 +385,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << " There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
 	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseTwoName, listTwo, courseTwoSize, listThree, courseThreeSize);
 	cout << endl;
-	int studentsTwo = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listThree, courseThreeSize, listTwo, courseTwoSize);
+	int studentsTwo = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listThree,courseThreeSize, listTwo, courseTwoSize);
 	cout << " There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
 
 	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseThreeName, listThree, courseThreeSize, listTwo, courseTwoSize);
@@ -507,7 +427,7 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 			string nameFromCourseTwo = listTwo[j].getName();
 			int scoreFromCourseOne = listOne[i].getScore();
 			int scoreFromCourseTwo = listTwo[j].getScore();
-			if (idFromCourseOne == idFromCourseTwo &&
+			if (idFromCourseOne == idFromCourseTwo && 
 				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
 				cout << " " << idFromCourseOne << setw(10) << nameFromCourseOne << setw(10) << courseOneTitle << "(" << scoreFromCourseOne << ")" << " " << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
@@ -530,7 +450,7 @@ bool idExistsInList(Student* list, int listSize, int id)
 	return false;
 }
 
-
+ 
 
 
 void outputCourseArray(Course* courseArray, int arraySize)
@@ -549,8 +469,6 @@ void outputCourseArray(Course* courseArray, int arraySize)
 		cout << endl;
 	}
 }
-
-
 
 
  
