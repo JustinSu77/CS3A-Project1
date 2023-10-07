@@ -43,7 +43,21 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
  
 // Run program
+/**
+	Show the user the five task options to run for this program.
+	Precondition: User enters a number between 1 and 5
+	Postcondition: The user input is saved is passed as reference to the run function.
+		userChoice as the option to run as int reference
+**/
 void showMenu(int& userChoice);
+
+/**
+	Show the user the menu and run task corresponding to the given option.
+	Precondition: User chooses a option 1 through 5.
+	Postcondition: The function corresponding to the chosen option is ran and program exit 0
+		array as array of type struct Course
+		arraySize as size of given array as int
+**/
 void run(struct Course* array, int arraySize);
 
 //Tasks
@@ -140,6 +154,65 @@ void checkIfFilesExist(string* filesToOpen, int arraySize)
 	}
 }
 
+void showMenu(int& userChoice)
+{
+	// Prompt user for the 5 tasks to run to this program
+	cout << "================= Menu =====================" << endl;
+	cout << "  1. Show all course lists (sorting)" << endl;
+	cout << "  2. List of students who take all courses" << endl;
+	cout << "  3. List of students who take two courses" << endl;
+	cout << "  4. Print out top three scores for each course" << endl;
+	cout << "  5. Exit" << endl;
+	cout << "  ----> Select : ";
+	// Save user choice as int reference to be passed to the run function
+	cin >> userChoice;
+
+}
+
+void run(struct Course* array, int arraySize)
+{
+	// Declare and initialize variable to store the user choice
+	int userChoice = 0;
+	// Prompt user for the 5 options to run
+	showMenu(userChoice);
+	// If user enters an invalid choice
+	if (userChoice < 1 || userChoice > 5)
+	{
+		// Skip a line in terminal for readability
+		cout << endl;
+		// Notify
+		cout << "Invalid option! Exiting program!" << endl;
+		return;
+	}
+	// Run the functions corresponding to the user choice
+	switch (userChoice)
+	{
+	case 1:
+		// Run function that shows the student lists in all 3 courses sorted by id in ascending order
+		showAllCourseLists(array, arraySize);
+		// Prevent fall through and exit switch when function is done
+		break;
+	case 2:
+		// Run function to output all the Students who are in all three courses
+		listOfStudentsWhoTakeAllThreeCourses(array);
+		// Prevent fall through and exit switch when function is done
+		break;
+	case 3:
+		// Run function to output all the Students who take 2 courses but is not in the third course
+		listOfStudentsWhoTakeTwoCourses(array);
+		// Prevent fall through and exit switch when function is done
+		break;
+	case 4:
+		// Run function to output the 3 Students from each course with the highest score
+		printOutTopThreeStudentsForEachCourse(array, arraySize);
+		// Prevent fall through and exit switch when function is done
+		break;
+	default:
+		// If 5 is chosen, exit program
+		cout << "  Exiting....";
+	}
+}
+
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
 {
 	ifstream inputFile;
@@ -178,19 +251,7 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 	 
 }
 
-void showMenu(int& userChoice)
-{
-	
-	cout << "================= Menu =====================" << endl;
-	cout << "  1. Show all course lists (sorting)" << endl;
-	cout << "  2. List of students who take all courses" << endl;
-	cout << "  3. List of students who take two courses" << endl;
-	cout << "  4. Print out top three scores for each course" << endl;
-	cout << "  5. Exit" << endl;
-	cout << "  ----> Select : ";
-	cin >> userChoice;
 
-}
 
 void printOutTopThreeStudentsForEachCourse(Course* courseArray, int arraySize)
 {
@@ -381,7 +442,6 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	Student* listOne = courseOne.list;
 	Student* listTwo = courseTwo.list;
 	Student* listThree = courseThree.list;
-	
 	string courseOneName = courseOne.title;
 	string courseTwoName = courseTwo.title;
 	string courseThreeName = courseThree.title;
@@ -436,7 +496,8 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 			string nameFromCourseTwo = listTwo[j].getName();
 			int scoreFromCourseOne = listOne[i].getScore();
 			int scoreFromCourseTwo = listTwo[j].getScore();
-			if (idFromCourseOne == idFromCourseTwo && (!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
+			if (idFromCourseOne == idFromCourseTwo && 
+				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
 				cout << " " << idFromCourseOne << setw(10) << nameFromCourseOne << setw(10) << courseOneTitle << "(" << scoreFromCourseOne << ")" << " " << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
 			}
@@ -460,34 +521,6 @@ bool idExistsInList(Student* list, int listSize, int id)
 
  
 
-void run(struct Course* array, int arraySize)
-{
-	int userChoice = 0;
-	showMenu(userChoice);
-	if (userChoice < 1 || userChoice > 5)
-	{
-		cout << endl;
-		cout << "Invalid option! Exiting program!" << endl;
-		exit(1);
-	}
-	switch (userChoice)
-	{
-		case 1:
-			showAllCourseLists(array, arraySize);
-			break;
-		case 2:
-			listOfStudentsWhoTakeAllThreeCourses(array);
-			break;
-		case 3:
-			listOfStudentsWhoTakeTwoCourses(array);
-			break;
-		case 4:
-			printOutTopThreeStudentsForEachCourse(array, arraySize);
-			break;
-		default:
-			cout << "  Exiting....";
-	}
-}
 
 void outputCourseArray(Course* courseArray, int arraySize)
 {
