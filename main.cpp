@@ -68,8 +68,37 @@ void run(struct Course* array, int arraySize);
 
 //Tasks
 // Show all course lists (sorting)
+/**
+	Sort object elements in given Student dynamic array in ascending order by id,
+	Uses insertion sort.
+	Precondition: Given Student dynamic array has some elements.
+	Postcondition: Object elements in Student dynamic array are 
+				   sorted in ascending order by id.
+		array as dynamic array of Student objects
+		arraySize as number of elements in dynamic array as int
+**/
 void insertionSortById(Student* array, int arraySize);
+
+/**
+	Output the id, name, and score of the Student objects in given Student 
+	dynamic array to terminal.
+	Precondition: Given Student dynamic array has some elements.
+	Postcondition: The id, name, and score of each Student object in given Studeny dynamic array is 
+				   outputted to the terminal
+		array as dynamic array of Student objects
+		arraySize as the number of elements in given array
+**/
+void outputStudentList(Student* array, int arraySize);
+
+/**
+	Output all the Student lists in each struct Course variable in the given struct Course array
+	in ascending order of id.
+	Precondition: Given struct Course* array is filled with sruct Course variables.
+	Postcondition: The Student list in each course is sorted in ascending order of id.
+
+**/
 void showAllCourseLists(struct Course* array, int arraySize);
+
 
 // List of students who take all courses
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
@@ -220,19 +249,19 @@ void run(struct Course* array, int arraySize)
 	}
 }
 
-void insertionSortById(Student* array, int arraySize)
+void insertionSortById(Student* list, int arraySize)
 {
 	int j = 0;
 	for (int i = 1; i < arraySize; i++)
 	{
-		Student key = array[i];
+		Student key = list[i];
 		j = i - 1;
-		while (j >= 0 && array[j].getId() > key.getId())
+		while (j >= 0 && list[j].getId() > key.getId())
 		{
-			array[j + 1] = array[j];
+			list[j + 1] = list[j];
 			j--;
 		}
-		array[j + 1] = key;
+		list[j + 1] = key;
 	}
 }
 
@@ -329,23 +358,29 @@ void insertionSortByScore(Student* array, int arraySize)
 	}
 }
 
+void outputStudentList(Student* array, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		Student student = array[i];
+		cout << "    " << student.getId() << setw(10) << student.getName() << setw(4) << student.getScore() << endl;
+	}
+	cout << endl;
+}
+
 void showAllCourseLists(struct Course* array, int arraySize)
 {
+	cout << endl;
+	
 	for (int i = 0; i < arraySize; i++)
 	{
 		struct Course course = array[i];
 		int courseSize = course.number_of_students;
 		cout << "==========  " << course.title << "  ==========" << endl;
-		cout << endl;
 		Student* list = course.list;
 		insertionSortById(list, courseSize);
-		for (int i = 0; i < courseSize; i++)
-		{
-			Student student = list[i];
-			cout << "    " << student.getId() << "    " << student.getName() << "  " << student.getScore() << endl;
-		}
-
 		cout << endl;
+		outputStudentList(list, courseSize);
 	}
 }
 
