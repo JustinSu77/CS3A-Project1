@@ -13,108 +13,36 @@ struct Course
 	Student* list;
 };
 // Text files
-/**
-	Prompt user for file names for files to be opened.
-	Precondition: Given string dynamic array filesToOpen is initialized and has some elements.
-	Postcondition: Given string dynamic array filesToOpen is filled with strings by user.
-		filesToOpen as string dynamic array
-		arraySize as number of elements in given string dynamic array
-**/
+
 void getFilesToOpen(string* filesToOpen, int arraySize);
 
-/**
-	Open each element of the given string dynamic array filesToOpen as a file.
-	Notify and exit program with error code 1 if a file fails to open.
-	Precondition: Given string dynamic array filesToOpen has some elements.
-	Postcondition: If element of filesToOpen fails to open as a file,
-				   notify and exit program with error code 1
-	filesToOpen as string dynamic array
-	arraySize as number of elements in filesToOpen as int
-**/
+
 void checkIfFilesExist(string* filesToOpen, int arraySize);
 
 // Create data structure
-/**
-	Fill given struct Course dynamic array with data from text files in filesToOpen string dynamic array.
-	Loop through the courseArray and filesToOpen array
-	Read the data from file and initialize a struct Course variable with the read data.
-	Assign the struct to the corresponding index of the courseArray
-	Precondition: Given filesToOpen is filled with file names to open.
-	Postcondition: Given courseArray is filled with struct Course variables created with data from file.
-		courseArray as struct Course dynamic array.
-		filesToOpen as string dynamic array
-		arraySize as the size of both given dynamic arrays	
-**/
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 
 
-/**
-	Deallocates the dynamic array pointed to by the list member variable 
-	of each struct Course variable in given struct Course dynamic array.
-	Precondition: Given struct Course* course array has some struct Course variables
-	Postcondition: The dynamic array pointed to by Stuent list member variable 
-				   of each struct variable is deallocated.
-	courseArray as array of struct Course variable
-	arraySize as number of elements in given courseArray
-**/
+
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
 
-// Run program
-/**
-	Show the user the five task options to run for this program.
-	Precondition: User enters a number between 1 and 5
-	Postcondition: The user input is saved is passed as reference to the run function.
-		userChoice as the option to run as int reference
-**/
+
 void showMenu(int& userChoice);
 
-/**
-	Show the user the menu and run task corresponding to the given option.
-	Precondition: User chooses a option 1 through 5.
-	Postcondition: The function corresponding to the chosen option is ran and program exit 0
-		array as array of type struct Course
-		arraySize as size of given array as int
-**/
+
 void run(struct Course* array, int arraySize);
 
 //Tasks
-// Show all course lists (sorting)
-/**
-	Sort object elements in given Student dynamic array in ascending order by id,
-	Uses insertion sort.
-	Precondition: Given Student dynamic array has some elements.
-	Postcondition: Object elements in Student dynamic array are 
-				   sorted in ascending order by id.
-		array as dynamic array of Student objects
-		arraySize as number of elements in dynamic array as int
-**/
+
 void insertionSortById(Student* array, int arraySize);
-
-/**
-	Output the id, name, and score of the Student objects in given Student 
-	dynamic array to terminal.
-	Precondition: Given Student dynamic array has some elements.
-	Postcondition: The id, name, and score of each Student object in given Studeny dynamic array is 
-				   outputted to the terminal
-		array as dynamic array of Student objects
-		arraySize as the number of elements in given array
-**/
 void outputStudentList(Student* array, int arraySize);
-
-/**
-	Output all the Student lists in each struct Course variable in the given struct Course array
-	in ascending order of id.
-	Precondition: Given struct Course* array is filled with sruct Course variables.
-	Postcondition: The Student list in each course is sorted in ascending order of id.
-
-**/
 void showAllCourseLists(struct Course* array, int arraySize);
 
 
-// List of students who take all courses
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 void outputStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
+
 
 // List of students who take only take 2 courses
 void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray);
@@ -129,8 +57,6 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int score);
 
 // Test functions
 void outputCourseArray(struct Course* courseArray, int arraySize);
-
-
 
 int main()
 {
