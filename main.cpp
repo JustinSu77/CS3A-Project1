@@ -43,9 +43,20 @@ void checkIfFilesExist(string* filesToOpen, int arraySize);
 	Postcondition: Given courseArray is filled with struct Course variables created with data from file.
 		courseArray as struct Course dynamic array.
 		filesToOpen as string dynamic array
-		arraySize as the size of both given dynamic arrays
+		arraySize as the size of both given dynamic arrays	
 **/
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
+
+
+/**
+	Deallocates the dynamic array pointed to by the list member variable 
+	of each struct Course variable in given struct Course dynamic array.
+	Precondition: Given struct Course* course array has some struct Course variables
+	Postcondition: The dynamic array pointed to by Stuent list member variable 
+				   of each struct variable is deallocated.
+	courseArray as array of struct Course variable
+	arraySize as number of elements in given courseArray
+**/
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
 
 // Run program
@@ -189,6 +200,50 @@ void checkIfFilesExist(string* filesToOpen, int arraySize)
 		inputFile.close();
 	}
 }
+void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
+{
+	// Declare ifstream object to read file
+	ifstream inputFile;
+	// Loop through given courseArray
+	for (int i = 0; i < arraySize; i++)
+	{
+		// Declare and initialize variable for file name at current index of fileToOpen array
+		string fileName = filesToOpen[i];
+		// Open the file 
+		inputFile.open(fileName);
+		// Declare variables used to store the data from first line of text file
+		int numberOfStudents = 0;
+		string title = "";
+		// Read in the data
+		inputFile >> title >> numberOfStudents;
+		// Declare and initialize the Student dynamic array to store Student objects with the next 3 data
+		Student* studentArray = new Student[numberOfStudents];
+		// Declare the variables needed for the next 3 data
+		int id = 0;
+		string name = "";
+		int score = 0;
+		int index = 0;
+		// Keep looping while not end of file
+		// ensure index is less than number of students for compiler warning
+		while (!inputFile.eof() && index < numberOfStudents)
+		{
+			// Read the 3 data of Student object
+			inputFile >> id >> name >> score;
+			// Create Student object with the 3 given data
+			Student student(id, name, score);
+			// Set currrent index of Student dynamic array to Student object
+			studentArray[index] = student;
+			// Increment index 
+			index++;
+		}
+		// Create new struct course variable
+		struct Course newCourse = {title, numberOfStudents, studentArray};
+		// Set current index of courseArray to created course 
+		courseArray[i] = newCourse;
+		// Close ifstream object
+		inputFile.close();
+	}
+}
 
 void showMenu(int& userChoice)
 {
@@ -264,34 +319,32 @@ void insertionSortById(Student* list, int arraySize)
 		list[j + 1] = key;
 	}
 }
-
-void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
+void outputStudentList(Student* array, int arraySize)
 {
-	ifstream inputFile;
 	for (int i = 0; i < arraySize; i++)
 	{
-		string fileName = filesToOpen[i];
-		inputFile.open(fileName);
-		int numberOfStudents = 0;
-		string title = "";
-		inputFile >> title >> numberOfStudents;
-		Student* studentArray = new Student[numberOfStudents];
-		int index = 0;
-		int id = 0;
-		string name = "";
-		int score = 0;
-		while (!inputFile.eof() && index < numberOfStudents)
-		{
-			inputFile >> id >> name >> score;
-			Student student(id, name, score);
-			studentArray[index] = student;
-			index++;
-		}
-		struct Course newCourse = { title, numberOfStudents, studentArray };
-		courseArray[i] = newCourse;
-		inputFile.close();
+		Student student = array[i];
+		cout << "    " << student.getId() << setw(10) << student.getName() << setw(4) << student.getScore() << endl;
+	}
+	cout << endl;
+}
+
+void showAllCourseLists(struct Course* array, int arraySize)
+{
+	cout << endl;
+
+	for (int i = 0; i < arraySize; i++)
+	{
+		struct Course course = array[i];
+		int courseSize = course.number_of_students;
+		cout << "==========  " << course.title << "  ==========" << endl;
+		Student* list = course.list;
+		insertionSortById(list, courseSize);
+		cout << endl;
+		outputStudentList(list, courseSize);
 	}
 }
+
 
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
 {
@@ -358,31 +411,7 @@ void insertionSortByScore(Student* array, int arraySize)
 	}
 }
 
-void outputStudentList(Student* array, int arraySize)
-{
-	for (int i = 0; i < arraySize; i++)
-	{
-		Student student = array[i];
-		cout << "    " << student.getId() << setw(10) << student.getName() << setw(4) << student.getScore() << endl;
-	}
-	cout << endl;
-}
 
-void showAllCourseLists(struct Course* array, int arraySize)
-{
-	cout << endl;
-	
-	for (int i = 0; i < arraySize; i++)
-	{
-		struct Course course = array[i];
-		int courseSize = course.number_of_students;
-		cout << "==========  " << course.title << "  ==========" << endl;
-		Student* list = course.list;
-		insertionSortById(list, courseSize);
-		cout << endl;
-		outputStudentList(list, courseSize);
-	}
-}
 
 void printStudentsWithGivenScore(Student* array, int arraySize, int score)
 {
