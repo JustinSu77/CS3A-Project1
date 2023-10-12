@@ -466,6 +466,7 @@ void run(struct Course* array, int arraySize)
 		break;
 	default:
 		// If 5 is chosen, exit program
+		cout << endl;
 		cout << "  Exiting....";
 		cout << endl;
 	}
@@ -652,7 +653,7 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	cout << endl;
 	// Output how many studentts take all 3 courses
 	cout << "    There are " << students << " students who take 3 courses      " << endl;
-	cout << "=================================================" << endl;
+	cout << "-------------------------------------------------" << endl;
 	// Output the id, name, and grade in each course of students who take all 3 courses 
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
@@ -831,7 +832,7 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		int courseSize = course.number_of_students;
 		// Want to make this function more universal and not just for top 3 students
 		// For situations when there is not enough students in the course to print out the top n students
-		if (courseSize < n)
+		if (n > courseSize)
 		{
 			// Make n the number of students in the course
 			n = courseSize;
@@ -867,13 +868,23 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		// Declare and initialize boolean array to keep track of value seen
 		bool scoreSeen[101] = {};
 		// Keep looping while scoreSeen counter is less than given n
+		
+		int elementsSeen = 0;
 		while (scoresSeen < n)
 		{
+		
+			if (elementsSeen == courseSize)
+			{
+				break;
+			}
 			// Store the score of the current Student object
 			int score = list[index].getScore();
 			// If score has not been seen
 			if (scoreSeen[score - 1] == false)
 			{
+				 
+			
+				elementsSeen++;
 				// Output scoreSeen counter and the score
 				cout << (scoresSeen + 1) << ".  " << score << endl;
 				// Output the students with the score
@@ -882,9 +893,16 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 				scoreSeen[score - 1] = true;
 				// Increment score seen
 				scoresSeen++;
+				
 			}
+			else
+			{
+				elementsSeen++;
+			}
+			
 			// Decrement index 
 			index--;
+			
 		}
 		// Output newline to terminal for readability
 		cout << endl;
