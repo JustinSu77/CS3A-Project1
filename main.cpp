@@ -290,6 +290,7 @@ int main()
 	const int ARRAY_SIZE = sizeof(courseArray) / sizeof(struct Course);
 	// Declare and initialize dynamic string array to store the names of text files to open 
 	string* filesToOpen = new string[ARRAY_SIZE];
+	//string filesToOpen[] = { "javascript.txt", "architecture.txt", "database.txt" };
 	// Call function to get fileNames from user
 	getFilesToOpen(filesToOpen, ARRAY_SIZE);
 	// Check if each of the given fileName exists
@@ -627,7 +628,7 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 					// Output the id, name of Student, title of courseOne, score in course one, 
 					// title of courseTwo, score in courseTwo, title of courseThree, and score in courseThree neatly formatted
 					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
-						<< " " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
+						<< "    " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
 						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
 						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;
 
@@ -652,8 +653,8 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	// Output new line for readability in terminal
 	cout << endl;
 	// Output how many studentts take all 3 courses
-	cout << "    There are " << students << " students who take 3 courses      " << endl;
-	cout << "-------------------------------------------------" << endl;
+	cout << "               There are " << students << " students who take 3 courses               " << endl;
+	cout << "----------------------------------------------------------------------" << endl;
 	// Output the id, name, and grade in each course of students who take all 3 courses 
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
@@ -732,7 +733,7 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
 				// Output the id, name, title of courseOne, score in courseOne, title of CourseTwo, and score in courseTwo of Student object that is in listOne and listTwo but not in listThree neatly formatted
-				cout << " " << idFromCourseOne << "     " << setw(10) << nameFromCourseOne << "     " << setw(8) << courseOneTitle << "(" << scoreFromCourseOne << ")" << "  "  << setw(8) << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
+				cout << " " << idFromCourseOne << setw(12) << nameFromCourseOne << setw(15) << courseOneTitle << "(" << scoreFromCourseOne << ")" << "    " << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
 			}
 		}
 
@@ -750,9 +751,8 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	int studentsOne = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	cout << endl;
 	// Output number of students who are in courseOne and courseTwo but not in courseThree
-	cout << "  There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
-	//cout << "---------------------------------------------" << endl;
-	cout << "-----------------------------------------------------------" << endl;
+	cout << "     There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
+	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseTwo but not in courseThree
 	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	// Skip a line in terminal for readability
@@ -760,8 +760,9 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	// Store number of students who are in courseOne and courseThree but not in courseTwo
 	int studentsTwo = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Output number of students who are in courseOne and courseThree but not in courseTwo
-	cout << "  There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
-	cout << "-----------------------------------------------------------" << endl;
+	cout << "     There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
+	cout << "-------------------------------------------------------------------" << endl;
+
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Skip a line in terminal for readability
@@ -769,8 +770,8 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	// Store number of students who are in courseTwo and courseThree but not in courseOne
 	int studentsThree = totalStudentsWhoTakeTwoCourses(courseTwo.list, courseTwo.number_of_students,courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 	// Output number of students who are in courseTwo and courseThree but not in courseTwo
-	cout << "  There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
-	cout << "-----------------------------------------------------------" << endl;
+	cout << "     There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
+	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 }
