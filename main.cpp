@@ -73,11 +73,11 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 /**
 	Purpose: Promp user with a menu with choices numbered 1-5. Store user input to a int reference that can 
 			 be used in another function to do something with the int reference passed.
-	Input: userChoice as int reference
+	Input: userChoice as char reference
 	Input Requirements: Given userChoice is an integer
-	Result: The result user entered after being prompted is the value of the given userChoice reference 
+	Result: The value user entered after being prompted is the value of the given userChoice reference 
 **/
-void showMenu(int& userChoice);
+void showMenu(char& userChoice);
 
 /**
 	Purpose: Contains the main operational functions of this program.
@@ -408,7 +408,7 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 
 }
 
-void showMenu(int& userChoice)
+void showMenu(char& userChoice)
 {
 	// Prompt user for the 5 tasks to run to this program
 	cout << "================= Menu =====================" << endl;
@@ -426,11 +426,12 @@ void showMenu(int& userChoice)
 void run(struct Course* array, int arraySize)
 {
 	// Declare and initialize variable to store the user choice
-	int userChoice = 0;
+	char userChoice = ' ';
 	// Prompt user for the 5 options to run
 	showMenu(userChoice);
+	int userChoiceAsInt = static_cast<int>(userChoice);
 	// If user enters an invalid choice
-	if (userChoice < 1 || userChoice > 5)
+	if (userChoiceAsInt < 1 || userChoiceAsInt > 5)
 	{
 		// Skip a line in terminal for readability
 		cout << endl;
@@ -439,7 +440,7 @@ void run(struct Course* array, int arraySize)
 		return;
 	}
 	// Run the functions corresponding to the user choice
-	switch (userChoice)
+	switch (userChoiceAsInt)
 	{
 	case 1:
 		// Run function that shows the student lists in all 3 courses sorted by id in ascending order
@@ -464,6 +465,7 @@ void run(struct Course* array, int arraySize)
 	default:
 		// If 5 is chosen, exit program
 		cout << "  Exiting....";
+		cout << endl;
 	}
 }
 
