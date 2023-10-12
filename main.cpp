@@ -87,8 +87,9 @@ void showMenu(char& userChoice);
 						array has type struct Course
 						arraySize is greater than 0
 						arraySize is an int
-	Result: Function showMenu is run and one of the 5 main operations 
+	Result: Function showMenu is executed and one of the 5 main operations 
 			of this program is run based on the choice of the user
+			If an invalid option is selected, notify user and exit program
 **/
 void run(struct Course* array, int arraySize);
 
@@ -429,7 +430,8 @@ void run(struct Course* array, int arraySize)
 	char userChoice = ' ';
 	// Prompt user for the 5 options to run
 	showMenu(userChoice);
-	int userChoiceAsInt = static_cast<int>(userChoice);
+	// Change userChoice to actual int value instead of char ascii value
+	int userChoiceAsInt = static_cast<int>(userChoice) - static_cast<int>('0');
 	// If user enters an invalid choice
 	if (userChoiceAsInt < 1 || userChoiceAsInt > 5)
 	{
@@ -729,7 +731,7 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
 				// Output the id, name, title of courseOne, score in courseOne, title of CourseTwo, and score in courseTwo of Student object that is in listOne and listTwo but not in listThree neatly formatted
-				cout << " " << idFromCourseOne << setw(10) << nameFromCourseOne << setw(8) << courseOneTitle << "(" << scoreFromCourseOne << ")" << setw(8) << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
+				cout << " " << idFromCourseOne << "     " << setw(10) << nameFromCourseOne << "     " << setw(8) << courseOneTitle << "(" << scoreFromCourseOne << ")" << "  "  << setw(8) << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
 			}
 		}
 
@@ -748,7 +750,8 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << endl;
 	// Output number of students who are in courseOne and courseTwo but not in courseThree
 	cout << "  There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
-	cout << "---------------------------------------------" << endl;
+	//cout << "---------------------------------------------" << endl;
+	cout << "-----------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseTwo but not in courseThree
 	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	// Skip a line in terminal for readability
@@ -757,7 +760,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	int studentsTwo = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Output number of students who are in courseOne and courseThree but not in courseTwo
 	cout << "  There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
-	cout << "---------------------------------------------" << endl;
+	cout << "-----------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Skip a line in terminal for readability
@@ -766,7 +769,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	int studentsThree = totalStudentsWhoTakeTwoCourses(courseTwo.list, courseTwo.number_of_students,courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 	// Output number of students who are in courseTwo and courseThree but not in courseTwo
 	cout << "  There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
-	cout << "---------------------------------------------" << endl;
+	cout << "-----------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 }
