@@ -174,17 +174,18 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 
 // List of students who take only take 2 courses
 /**
-	Purpose: Return whether or not whether a Student object in given Student dynamic array has an id the same as given id.
+	Purpose: Return whether or not whether a Student object in given Student dynamic array has an id the same as given targetId.
 	Input: list as dynamic array with Student data type
 		   listSize as the number of elements in given list
-		   id as the id to search for in given list
+		   targetId as the id to search for in given list
 	Input Requirement: Number of elements in given list should be the same as listSize
 					   listSize should be an integer
-					   id should be an integer
-	Result: If there is a Student object with id private member variable equal to given id return true
+					   targetId should be an integer
+	Result: If there is a Student object with id private 
+			member variable equal to given targetId return true
 		    Otherwise return false
 **/
-bool idExistsInList(Student* list, int listSize, int id);
+bool idExistsInList(Student* list, int listSize, int targetId);
 /**
 	Purpose: Return the number of students who are in given Student dynamic arrays listOne and listTwo but not in given listThree.
 	Input: listOne as dynamic array with type Student
@@ -254,14 +255,14 @@ void insertionSortByScore(Student* array, int arraySize);
 	Purpose: Helper function for option 4.
 	Input: array as dynamic array of Student objects
 		   arraySize as number of elements in given array
-		   score as target score for Student objects to have to be outputted to terminal
+		   targetScore as target score for Student objects to have to be outputted to terminal
 	Input Requirement: array is a dynamic array of Student objects
 					   Number of elements in array is equal to given arraySize
 					   arraySize is an integer
-					   score is an integer
+					   targetScore is an integer
 	Result: The id, name, and score of the Student objects that the same score as given score is ouputted to the terminal
 **/
-void printStudentsWithGivenScore(Student* array, int arraySize, int score);
+void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore);
 
 /**
 	Purpose: Function to run when user chooses option 4: Print out top three scores for each course.
@@ -279,10 +280,6 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int score);
 				So the top 2 score and the id and name ofthe Student objects who have those scores will be printed out
 **/
 void printOutTopNStudentsForEachCourse(struct Course* courseArray, int arraySize,int n);
-
-
-// Test functions
-void outputCourseArray(struct Course* courseArray, int arraySize);
 
 int main()
 {
@@ -400,9 +397,12 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
 {
+	// Loop through given courseArray 
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Declare and store current element of courseArray
 		struct Course course = courseArray[i];
+		// Deallocate thst Student dynamic array pointed by the list of the current course struct
 		delete[] course.list;
 	}
 
@@ -468,29 +468,44 @@ void run(struct Course* array, int arraySize)
 }
 
 
-void insertionSortById(Student* list, int arraySize)
+void insertionSortById(Student* array, int arraySize)
 {
-	int j = 0;
+	// Declare variables used
+	int j;
+	// Loop through given array
 	for (int i = 1; i < arraySize; i++)
 	{
-		Student key = list[i];
+		// Set key to current element
+		Student key = array[i];
+		// Set j to element before current element
 		j = i - 1;
-		while (j >= 0 && list[j].getId() > key.getId())
+		// Compare the id of the key element to the id of the element before it
+		// If id of key element is smaller keep comparing with each of the elements before it
+		// Swap the key element with the its previous element if its id is smaller
+		while (j >= 0 && array[j].getId() > key.getId())
 		{
-			list[j + 1] = list[j];
+			// Swap element
+			array[j + 1] = array[j];
+			// Go to element before
 			j--;
 		}
-		list[j + 1] = key;
+		// Insert key element into position where its id is greater than the element before it
+		array[j + 1] = key;
 	}
 }
 
 void outputStudentList(Student* array, int arraySize)
 {
+	// Loop through given array
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Store Student object at current index
 		Student student = array[i];
-		cout << "    " << student.getId() << setw(10) << student.getName() << setw(4) << student.getScore() << endl;
+		// Output the id, name, and score of Student object student neatly formatted
+		cout << "    " << student.getId() << setw(10) << student.getName() 
+			<< setw(4) << student.getScore() << endl;
 	}
+	// Go to next line for next terminal output
 	cout << endl;
 }
 
@@ -498,73 +513,114 @@ void outputStudentList(Student* array, int arraySize)
 
 void showAllCourseLists(struct Course* array, int arraySize)
 {
+	// Go to next line for readability in terminal
 	cout << endl;
-
+	// Loop through given array
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Store struct Course variable at current index
 		struct Course course = array[i];
+		// Declare initialize variable to store rhe number of students of current course variable
 		int courseSize = course.number_of_students;
+		// Output the name of current course
 		cout << "==========  " << course.title << "  ==========" << endl;
+		// Declare and initialize pointer to point to list of current course variable
 		Student* list = course.list;
+		// Sort the list by id
 		insertionSortById(list, courseSize);
+		// Go to next line for readability in terminal
 		cout << endl;
+		// Output the student list
 		outputStudentList(list, courseSize);
 	}
 }
 
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree)
 {
-
+	// Declare and initialize variable to store the number of students in given courseOne
 	int courseOneSize = courseOne.number_of_students;
+	// Declare and initialize variable to store the number of students in given courseTwo
 	int courseTwoSize = courseTwo.number_of_students;
+	// Declare and initialize variable to store the number of students in given courseThree
 	int courseThreeSize = courseThree.number_of_students;
+	// Declare and initialize pointer that points to the list variable of courseOne
 	Student* courseOneList = courseOne.list;
+	// Declare and initialize pointer that points to the list variable of courseTwo
 	Student* courseTwoList = courseTwo.list;
+	// Declare and initialize pointer that points to the list variable of courseThree
 	Student* courseThreeList = courseThree.list;
+	// Declare and initialize variable counter to store number of students who are in all 3 courses
 	int total = 0;
+	// Loop through courseOne Student list
 	for (int i = 0; i < courseOneSize; i++)
 	{
+		// Loop through courseTwo Student list
 		for (int j = 0; j < courseTwoSize; j++)
 		{
+			// Loop through courseThree Student list
 			for (int k = 0; k < courseThreeSize; k++)
 			{
-				Student courseOneStudent = courseOneList[i];
-				Student courseTwoStudent = courseTwoList[j];
-				Student courseThreeStudent = courseThreeList[k];
-				if (courseOneStudent.getId() == courseTwoStudent.getId()
-					&& courseOneStudent.getId() == courseThreeStudent.getId())
+				// Store Student object in courseOne list at current i index
+				Student fromCourseOne = courseOneList[i];
+				// Store Student object in courseOne list at current j index
+				Student fromCourseTwo = courseTwoList[j];
+				// Store Student object in courseOne list at current k index
+				Student fromCourseThree = courseThreeList[k];
+				// If the id of Student object  in courseOne is equal to ids of the Student object in courseTwo and courseThree
+				if (fromCourseOne.getId() == fromCourseTwo.getId()
+					&& fromCourseOne.getId() == fromCourseThree.getId())
 				{
+					// Increment total counter
 					total++;
 				}
 			}
 		}
 	}
+	// Return total counter
 	return total;
 }
 
 void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Course courseThree)
 {
+	// Declare and initialize variable to store the number of students in courseOne
 	int courseOneSize = courseOne.number_of_students;
+	// Declare and initialize variable to store the number of students in courseTwo
 	int courseTwoSize = courseTwo.number_of_students;
+	// Declare and initialize variable to store the number of students in courseThree
 	int courseThreeSize = courseThree.number_of_students;
+	// Declare and initialize pointer that points to Student list of courseOne
 	Student* courseOneList = courseOne.list;
+	// Declare and initialize pointer that points to Student list of courseTwo
 	Student* courseTwoList = courseTwo.list;
+	// Declare and initialize pointer that points to Student list of courseThree
 	Student* courseThreeList = courseThree.list;
+	// Declare and initialize variable to store the title name of courseOne
 	string courseOneTitle = courseOne.title;
+	// Declare and initialize variable to store the title name of courseTwo
 	string courseTwoTitle = courseTwo.title;
+	// Declare and initialize variable to store the title name of courseThree
 	string courseThreeTitle = courseThree.title;
+	// Loop through courseOneList
 	for (int i = 0; i < courseOneSize; i++)
 	{
+		// Loop through courseTwoList
 		for (int j = 0; j < courseTwoSize; j++)
 		{
+			// Loop through courseThreeList
 			for (int k = 0; k < courseThreeSize; k++)
 			{
+				// Store Student object in courseOne list at current i index
 				Student fromCourseOne = courseOneList[i];
+				// Store Student object in courseOne list at current j index
 				Student fromCourseTwo = courseTwoList[j];
+				// Store Student object in courseOne list at current k index
 				Student fromCourseThree = courseThreeList[k];
+				// If the id of Student object in courseOne is equal to ids of the Student object in courseTwo and courseThree
 				if (fromCourseOne.getId() == fromCourseTwo.getId()
 					&& fromCourseOne.getId() == fromCourseThree.getId())
 				{
+					// Output the id, name of Student, title of courseOne, score in course one, 
+					// title of courseTwo, score in courseTwo, title of courseThree, and score in courseThree neatly formatted
 					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
 						<< " " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
 						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
@@ -579,65 +635,98 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 {
+	// Store the first course in given courseArray
 	struct Course courseOne = courseArray[0];
+	// Store the secound course in given courseArray
 	struct Course courseTwo = courseArray[1];
+	// Store the third course in given courseArray
 	struct Course courseThree = courseArray[2];
+	// Declare and initialize variable to store the returned value from function 
+	// that counts the number of students that take all 3 courses
 	int students = totalStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
+	// Output new line for readability in terminal
 	cout << endl;
+	// Output how many studentts take all 3 courses
 	cout << "    There are " << students << " students who take 3 courses      " << endl;
 	cout << "=================================================" << endl;
+	// Output the id, name, and grade in each course of students who take all 3 courses 
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
 
-bool idExistsInList(Student* list, int listSize, int id)
+bool idExistsInList(Student* list, int listSize, int targetId)
 {
+	// Loop through given list of Student objects
 	for (int i = 0; i < listSize; i++)
 	{
+		// Set variable to store Student object at current index
 		Student student = list[i];
-		if (student.getId() == id)
+		// If the id of the current student is equal to given targetId
+		if (student.getId() == targetId)
 		{
 			return true;
 		}
 	}
+	// Otherwise return false
 	return false;
 }
 
 
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
-	int result = 0;
+	// Declare and Initialize total counter for 
+	// number of students who take 2 courses 
+	int total = 0;
+	// Loop through listOne
 	for (int i = 0; i < listOneSize; i++)
 	{
+		// Loop through listTwo
 		for (int j = 0; j < listTwoSize; j++)
 		{
+			// Save id of current Student object at index i
 			int idFromCourseOne = listOne[i].getId();
+			// Save id of current Student object at index j
 			int idFromCourseTwo = listTwo[j].getId();
+			// If the ids are equal and the id does not exist in given listThree
 			if (idFromCourseOne == idFromCourseTwo && (!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
-				result++;
+				// Increment total counter
+				total++;
 			}
 		}
 	}
-	return result;
+	// Return total counter
+	return total;
 }
 
 void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
+	// Sort listOne in ascending order by id
 	insertionSortById(listOne, listOneSize);
+	// Sort listTwo in ascending order by id
 	insertionSortById(listTwo, listTwoSize);
+	// Loop through listOne
 	for (int i = 0; i < listOneSize; i++)
 	{
+		// Loop through listTwo
 		for (int j = 0; j < listTwoSize; j++)
 		{
+			// Store the id from Student object at current i index of listOne
 			int idFromCourseOne = listOne[i].getId();
+			// Store the id from Student object at current j index of listTwo
 			int idFromCourseTwo = listTwo[j].getId();
+			// Store the name from Student object at current i index of listOne
 			string nameFromCourseOne = listOne[i].getName();
+			// Store the name from Student object at current j index of listTwo
 			string nameFromCourseTwo = listTwo[j].getName();
+			// Store the score from Student object at current i index of listOne
 			int scoreFromCourseOne = listOne[i].getScore();
+			// Store the id from Student object at current j index of listTwo
 			int scoreFromCourseTwo = listTwo[j].getScore();
+			// If the ids are equal and the id does not exist in given listThree
 			if (idFromCourseOne == idFromCourseTwo &&
 				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
+				// Output the id, name, title of courseOne, score in courseOne, title of CourseTwo, and score in courseTwo of Student object that is in listOne and listTwo but not in listThree neatly formatted
 				cout << " " << idFromCourseOne << setw(10) << nameFromCourseOne << setw(8) << courseOneTitle << "(" << scoreFromCourseOne << ")" << setw(8) << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
 			}
 		}
@@ -651,56 +740,72 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	struct Course courseOne = courseArray[0];
 	struct Course courseTwo = courseArray[1];
 	struct Course courseThree = courseArray[2];
-	Student* listOne = courseOne.list;
-	Student* listTwo = courseTwo.list;
-	Student* listThree = courseThree.list;
-	string courseOneName = courseOne.title;
-	string courseTwoName = courseTwo.title;
-	string courseThreeName = courseThree.title;
-	int courseOneSize = courseOne.number_of_students;
-	int courseTwoSize = courseTwo.number_of_students;
-	int courseThreeSize = courseThree.number_of_students;
-	// Count students who are in courseOne and courseTwo but no int courseThree
-	int studentsOne = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listTwo, courseTwoSize, listThree, courseThreeSize);
+	 
+	// Store number of students who are in courseOne and courseTwo but not in courseThree
+	int studentsOne = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	cout << endl;
+	// Output number of students who are in courseOne and courseTwo but not in courseThree
 	cout << "  There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
 	cout << "---------------------------------------------" << endl;
-	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseTwoName, listTwo, courseTwoSize, listThree, courseThreeSize);
+	// Output the Student objects who are in courseOne and courseTwo but not in courseThree
+	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
+	// Skip a line in terminal for readability
 	cout << endl;
-	int studentsTwo = totalStudentsWhoTakeTwoCourses(listOne, courseOneSize, listThree, courseThreeSize, listTwo, courseTwoSize);
+	// Store number of students who are in courseOne and courseThree but not in courseTwo
+	int studentsTwo = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
+	// Output number of students who are in courseOne and courseThree but not in courseTwo
 	cout << "  There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
 	cout << "---------------------------------------------" << endl;
-	outputStudentsWhoTakeTwoCourses(courseOneName, listOne, courseOneSize, courseThreeName, listThree, courseThreeSize, listTwo, courseTwoSize);
+	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
+	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
+	// Skip a line in terminal for readability
 	cout << endl;
-	int studentsThree = totalStudentsWhoTakeTwoCourses(listTwo, courseTwoSize, listThree, courseThreeSize, listOne, courseOneSize);
+	// Store number of students who are in courseTwo and courseThree but not in courseOne
+	int studentsThree = totalStudentsWhoTakeTwoCourses(courseTwo.list, courseTwo.number_of_students,courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
+	// Output number of students who are in courseTwo and courseThree but not in courseTwo
 	cout << "  There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
 	cout << "---------------------------------------------" << endl;
-	outputStudentsWhoTakeTwoCourses(courseTwoName, listTwo, courseTwoSize, courseThreeName, listThree, courseThreeSize, listOne, courseOneSize);
+	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
+	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 }
 
 void insertionSortByScore(Student* array, int arraySize)
 {
-	int j = 0;
+	// Declare variables used
+	int j;
+	// Loop through given array
 	for (int i = 1; i < arraySize; i++)
 	{
+		// Set key to current element
 		Student key = array[i];
+		// Set j to element before current element
 		j = i - 1;
+		// Compare the score of the key element to the score of the element before it
+		// If score of key element is smaller keep comparing with each of the elements before it
+		// Swap the key element with the its previous element if its score is smaller
 		while (j >= 0 && array[j].getScore() > key.getScore())
 		{
+			// Swap element
 			array[j + 1] = array[j];
+			// Go to element before
 			j--;
 		}
+		// Insert key element into position where its id is greater than the element before it
 		array[j + 1] = key;
 	}
 }
 
-void printStudentsWithGivenScore(Student* array, int arraySize, int score)
+void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 {
+	// Loop through given Student dynamic array
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Store Student object at current index
 		Student student = array[i];
-		if (student.getScore() == score)
+		// If the score of current Student object is equal to given score
+		if (student.getScore() == targetScore)
 		{
+			// Output id and name of Student object neatly formatted
 			cout << "    " << student.getId() << setw(10) << student.getName() << endl;
 		}
 	}
@@ -708,52 +813,77 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int score)
 
 void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n)
 {
+	// Skip a line in terminal for readability
 	cout << endl;
+	// Loop through 
 	for (int i = 0; i < arraySize; i++)
 	{
+		// Store course at current index 
 		Course course = courseArray[i];
+		// Store the title of the current course
 		string title = course.title;
+		// Store the number of students in current course
 		int courseSize = course.number_of_students;
+		// Want to make this function more universal and not just for top 3 students
+		// For situations when there is not enough students in the course to print out the top n students
 		if (courseSize < n)
 		{
+			// Make n the number of students in the course
 			n = courseSize;
 		}
+		// Declare and initialize pointer that points to the Student list of current course
 		Student* list = course.list;
+		// Sort the list by id
 		insertionSortById(list, courseSize);
+		// Sort the list by score
 		insertionSortByScore(list, courseSize);
-		cout << "[  " << title << " Top Three Scores  ]" << endl;
+		// If given n is 3
+		if (n == 3)
+		{
+			// Output course title and Top Three Scores
+			cout << "[  " << title << " Top Three Scores  ]" << endl;
+		}
+		// If given n is 1
+		else if (n == 1)
+		{
+			// Output course title and Top Score
+			cout << "[  " << title << " Top Score  ]" << endl;
+		}
+		// Otherwise
+		else
+		{
+			// Output the course title and Top n Scores
+			cout << "[  " << title << " Top " << n << " Scores  ]" << endl;
+		}
+		// Declare and initialize couner variable to keep track of scores seen
 		int scoresSeen = 0;
+		// Declare and initialize index that to traverse array backwards
 		int index = courseSize - 1;
+		// Declare and initialize boolean array to keep track of value seen
 		bool scoreSeen[101] = {};
+		// Keep looping while scoreSeen counter is less than given n
 		while (scoresSeen < n)
 		{
+			// Store the score of the current Student object
 			int score = list[index].getScore();
+			// If score has not been seen
 			if (scoreSeen[score - 1] == false)
 			{
+				// Output scoreSeen counter and the score
 				cout << (scoresSeen + 1) << ".  " << score << endl;
+				// Output the students with the score
 				printStudentsWithGivenScore(list, courseSize, score);
+				// Mark score as seen
 				scoreSeen[score - 1] = true;
+				// Increment score seen
 				scoresSeen++;
 			}
+			// Decrement index 
 			index--;
 		}
+		// Output newline to terminal for readability
 		cout << endl;
 	}
 }
 
-void outputCourseArray(Course* courseArray, int arraySize)
-{
-	for (int i = 0; i < arraySize; i++)
-	{
-		struct Course course = courseArray[i];
-		int courseSize = course.number_of_students;
-		cout << course.title << " " << courseSize << endl;
-		Student* list = course.list;
-		for (int i = 0; i < courseSize; i++)
-		{
-			Student student = list[i];
-			cout << student.getId() << " " << student.getName() << " " << student.getScore() << endl;
-		}
-		cout << endl;
-	}
-}
+ 

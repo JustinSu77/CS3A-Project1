@@ -44,19 +44,19 @@ void Student::setScore(int newScore)
 	score = newScore;
 }
 
-int Student::getId()
+int Student::getId() const
 {
 	// Return private member variable id
 	return id;
 }
 
-string Student::getName()
+string Student::getName() const
 {
 	// Return private member variable name
 	return name;
 }
 
-int Student::getScore()
+int Student::getScore() const
 {
 	// Return private member variable score
 	return score;
