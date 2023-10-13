@@ -270,8 +270,9 @@ void insertionSortByScore(Student* array, int arraySize);
 	Result: The id, name, and score of the Student objects that the same score as given score is ouputted to the terminal
 **/
 void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore);
-Student* copyStudentArray(Student* array, int arraySize);
-void  deleteRepeatScoresInStudentArray(Student* array, int& arraySize);
+
+int* getStudentGrades(Student* array, int arraySize);
+void  deleteRepeatScoresInStudentArray(int* array, int& arraySize);
 /**
 	Purpose: Function to run when user chooses option 4: Print out top three scores for each course.
 	Input: courseArray as array of struct Course variables
@@ -826,24 +827,24 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 		}
 	}
 }
-Student* copyStudentArray(Student* array, int arraySize)
+int* getStudentGrades(Student* array, int arraySize)
 {
-	Student* newArray = new Student[arraySize];
+	int* newArray = new int[arraySize];
 	for (int i = 0; i < arraySize; i++)
 	{
-		newArray[i] = array[i];
+		newArray[i] = array[i].getScore();
 	}
 	return newArray;
 }
 
 
-void deleteRepeatScoresInStudentArray(Student* array, int& arraySize)
+void deleteRepeatScoresInStudentArray(int* array, int& arraySize)
 {
 
 	int removed = 0;
 	for (int i = 0; i < arraySize - 1; i++)
 	{
-		if (array[i].getScore() != array[i + 1].getScore())
+		if (array[i] != array[i + 1])
 		{
 			array[removed] = array[i];
 
@@ -879,11 +880,9 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		// Sort the list by score
 		insertionSortByScore(list, courseSize);
 		int copyOfCourseSize = courseSize;
-		Student* listCopy = copyStudentArray(list, copyOfCourseSize);
-		deleteRepeatScoresInStudentArray(listCopy, copyOfCourseSize);
-		cout << "Copy course size : " << copyOfCourseSize << endl;
-		outputStudentList(listCopy, copyOfCourseSize);
-		cout << "n: " << n << endl;
+		int* studentGrades = getStudentGrades(list, copyOfCourseSize);
+		deleteRepeatScoresInStudentArray(studentGrades, copyOfCourseSize);
+		 
 		 if (n > copyOfCourseSize)
 		{
 			// Make n the number of students in the course
@@ -902,19 +901,19 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 			// Output the course title and Top n Scores
 			cout << "[  " << title << " Top " << n << " Scores  ]" << endl;
 		}
-		 cout << "n: " << n << endl;
+		 
 		int scoresSeen = 0;
 		int arrayIndex = copyOfCourseSize - 1;
 		while (scoresSeen < n)
 		{
-			int score = listCopy[arrayIndex].getScore();
+			int score = studentGrades[arrayIndex];
 			cout << scoresSeen + 1 << ". " << score << endl;
 			printStudentsWithGivenScore(list, courseSize, score);
 			cout << endl;
 			scoresSeen++;
 			arrayIndex--;
 		}
-		delete[] listCopy;
+		delete[] studentGrades;
 		// Output newline to terminal for readability
 		cout << endl;
 		n = initialN;
