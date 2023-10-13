@@ -187,6 +187,9 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 		    Otherwise return false
 **/
 bool idExistsInList(Student* list, int listSize, int targetId);
+
+
+ 
 /**
 	Purpose: Return the number of students who are in given Student dynamic arrays listOne and listTwo but not in given listThree.
 	Input: listOne as dynamic array with type Student
@@ -201,6 +204,9 @@ bool idExistsInList(Student* list, int listSize, int targetId);
 	Result: The number of students that are both in listOne and listTwo but not in listThree is returned.
 **/
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
+
+ 
+
 
 /**
 	Purpose: Function to be called when user chooses option 2: List of students who take two courses.
@@ -264,7 +270,8 @@ void insertionSortByScore(Student* array, int arraySize);
 	Result: The id, name, and score of the Student objects that the same score as given score is ouputted to the terminal
 **/
 void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore);
-
+Student* copyStudentArray(Student* array, int arraySize);
+void  deleteRepeatScoresInStudentArray(Student* array, int& arraySize);
 /**
 	Purpose: Function to run when user chooses option 4: Print out top three scores for each course.
 	Input: courseArray as array of struct Course variables
@@ -280,7 +287,7 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 				Then n will be 2
 				So the top 2 score and the id and name ofthe Student objects who have those scores will be printed out
 **/
-void printOutTopNStudentsForEachCourse(struct Course* courseArray, int arraySize,int n);
+void printOutTopNStudentsForEachCourse(struct Course* courseArray, int arraySize, int n);
 
 int main()
 {
@@ -704,6 +711,8 @@ int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* l
 	return total;
 }
 
+
+
 void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
 	// Sort listOne in ascending order by id
@@ -817,12 +826,41 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 		}
 	}
 }
+Student* copyStudentArray(Student* array, int arraySize)
+{
+	Student* newArray = new Student[arraySize];
+	for (int i = 0; i < arraySize; i++)
+	{
+		newArray[i] = array[i];
+	}
+	return newArray;
+}
 
+
+void deleteRepeatScoresInStudentArray(Student* array, int& arraySize)
+{
+
+	int removed = 0;
+	for (int i = 0; i < arraySize - 1; i++)
+	{
+		if (array[i].getScore() != array[i + 1].getScore())
+		{
+			array[removed] = array[i];
+
+			removed++;
+		}
+	}
+	array[removed] = array[arraySize - 1];
+	arraySize = removed + 1;
+
+
+}
 void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n)
 {
 	// Skip a line in terminal for readability
 	cout << endl;
 	// Loop through 
+	int initialN = n;
 	for (int i = 0; i < arraySize; i++)
 	{
 		// Store course at current index 
@@ -833,25 +871,27 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		int courseSize = course.number_of_students;
 		// Want to make this function more universal and not just for top 3 students
 		// For situations when there is not enough students in the course to print out the top n students
-		if (n > courseSize)
-		{
-			// Make n the number of students in the course
-			n = courseSize;
-		}
+		
 		// Declare and initialize pointer that points to the Student list of current course
 		Student* list = course.list;
 		// Sort the list by id
 		insertionSortById(list, courseSize);
 		// Sort the list by score
 		insertionSortByScore(list, courseSize);
-		// If given n is 3
-		if (n == 3)
+		int copyOfCourseSize = courseSize;
+		Student* listCopy = copyStudentArray(list, copyOfCourseSize);
+		deleteRepeatScoresInStudentArray(listCopy, copyOfCourseSize);
+		cout << "Copy course size : " << copyOfCourseSize << endl;
+		outputStudentList(listCopy, copyOfCourseSize);
+		cout << "n: " << n << endl;
+		 if (n > copyOfCourseSize)
 		{
-			// Output course title and Top Three Scores
-			cout << "[  " << title << " Top Three Scores  ]" << endl;
+			// Make n the number of students in the course
+			n = copyOfCourseSize;
 		}
+		 
 		// If given n is 1
-		else if (n == 1)
+		 if (n == 1)
 		{
 			// Output course title and Top Score
 			cout << "[  " << title << " Top Score  ]" << endl;
@@ -862,51 +902,22 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 			// Output the course title and Top n Scores
 			cout << "[  " << title << " Top " << n << " Scores  ]" << endl;
 		}
-		// Declare and initialize couner variable to keep track of scores seen
+		 cout << "n: " << n << endl;
 		int scoresSeen = 0;
-		// Declare and initialize index that to traverse array backwards
-		int index = courseSize - 1;
-		// Declare and initialize boolean array to keep track of value seen
-		bool scoreSeen[101] = {};
-		// Keep looping while scoreSeen counter is less than given n
-		
-		int elementsSeen = 0;
+		int arrayIndex = copyOfCourseSize - 1;
 		while (scoresSeen < n)
 		{
-		
-			if (elementsSeen == courseSize)
-			{
-				break;
-			}
-			// Store the score of the current Student object
-			int score = list[index].getScore();
-			// If score has not been seen
-			if (scoreSeen[score - 1] == false)
-			{
-				 
-			
-				elementsSeen++;
-				// Output scoreSeen counter and the score
-				cout << (scoresSeen + 1) << ".  " << score << endl;
-				// Output the students with the score
-				printStudentsWithGivenScore(list, courseSize, score);
-				// Mark score as seen
-				scoreSeen[score - 1] = true;
-				// Increment score seen
-				scoresSeen++;
-				
-			}
-			else
-			{
-				elementsSeen++;
-			}
-			
-			// Decrement index 
-			index--;
-			
+			int score = listCopy[arrayIndex].getScore();
+			cout << scoresSeen + 1 << ". " << score << endl;
+			printStudentsWithGivenScore(list, courseSize, score);
+			cout << endl;
+			scoresSeen++;
+			arrayIndex--;
 		}
+		delete[] listCopy;
 		// Output newline to terminal for readability
 		cout << endl;
+		n = initialN;
 	}
 }
 
