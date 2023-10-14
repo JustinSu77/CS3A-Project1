@@ -1,8 +1,7 @@
 #pragma once
 #include "CourseStruct.h"
 
-// Text files
-
+// Files
 /**
 	Purpose: Prompt user for name of file to be opened and save to string dynamic array.
 	Input: filesToOpen as string dynamic array
@@ -27,6 +26,7 @@ void getFilesToOpen(string* filesToOpen, int arraySize);
 **/
 void checkIfFilesExist(string* filesToOpen, int arraySize);
 
+
 // Create data structure
 /**
 	Purpose: Fill given courseArray from text files with file names from given filesToOpen.
@@ -44,21 +44,7 @@ void checkIfFilesExist(string* filesToOpen, int arraySize);
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 
 
-
-/**
-	Purpose: Deallocates the dynamic arrays pointed to by the list member variable of
-			 each struct variable in given courseArray.
-	Input: courseArray as array of type struct Course
-		   arraySize as the size of the courseArray as int
-``	Input Requirements: Number of elements in courseArray should be same as arraySize
-						courseArray has type of struct Course
-						arraySize is greater than 0
-						arraySize is an int
-	Result: The dynamic array pointed to by the list variable of each struct Course variable is deallocated
-**/
-void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);
-
-
+// User Interaction
 /**
 	Purpose: Promp user with a menu with choices numbered 1-5. Store user input to a int reference that can
 			 be used in another function to do something with the int reference passed.
@@ -96,6 +82,9 @@ void runProgram(struct Course* array, int arraySize);
 	Result: The given dynamic array or a pointer to the dynamic array has
 			Student objects that is sorted in asecending order based on their id
 **/
+
+
+// Task 1: Show All Course Lists
 void insertionSortById(Student* array, int arraySize);
 /**
 	Purpose: Outputs the id, name, and score of given Student dynamic array to terminal.
@@ -125,9 +114,7 @@ void outputStudentList(Student* array, int arraySize);
 void showAllCourseLists(struct Course* array, int arraySize);
 
 
-// List all students who take all 3 courses
-
-
+// Task 2: List of students who take all courses
 /**
 	Purpose: Count and return many times a id value of a Student object appears in the Student list of the given courses.
 	Input: courseOne as struct Course variable
@@ -162,7 +149,7 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 
 
 
-// List of students who take only take 2 courses
+// Task 3: List of students who take only take 2 courses
 /**
 	Purpose: Return whether or not whether a Student object in given Student dynamic array has an id the same as given targetId.
 	Input: list as dynamic array with Student data type
@@ -176,9 +163,6 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 			Otherwise return false
 **/
 bool idExistsInList(Student* list, int listSize, int targetId);
-
-
-
 /**
 	Purpose: Return the number of students who are in given Student dynamic arrays listOne and listTwo but not in given listThree.
 	Input: listOne as dynamic array with type Student
@@ -192,13 +176,11 @@ bool idExistsInList(Student* list, int listSize, int targetId);
 						Number of elements in given listThree should be equal to given listThreeSize
 	Result: The number of students that are both in listOne and listTwo but not in listThree is returned.
 **/
+
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
-
-
-
 /**
-	Purpose: Function to be called when user chooses option 2: List of students who take two courses.
+	Purpose: Function to be called when user chooses option 3: List of students who take two courses.
 	Input: courseOneTitle as string
 		   listOne as dynamic array of Student objects
 		   listOneSize as number of elements in listOne
@@ -225,6 +207,7 @@ int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* l
 void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
 
+// Task 4: Print out top scores for each course
 /**
 	Purpose: Function to be called when user chooses the option of List of students who take two courses.
 	Input: courseArray is array of struct Course variables
@@ -236,7 +219,7 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray);
 
 
-// Print out top three students for each course
+// Task 4: Print out top three students for each course
 /**
 	Purpose: Helper function for option 4
 	Input: array as a dynamic array of Student objects
@@ -260,8 +243,29 @@ void insertionSortByScore(Student* array, int arraySize);
 **/
 void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore);
 
+/**
+	Purpose: Return a pointer to dynamic array filled with scores from given Student array.
+	Input: array as dynamic array of type Student
+		   arraySize number of elements in given array as int
+	Input Requirement: Number of elements in given array should be equal to arraySize
+					   arraySize should be >= 0
+	Result: Return a pointer to dynamic array filled with scores from given Student array
+**/
 int* getStudentGrades(Student* array, int arraySize);
-void  deleteRepeatScoresInStudentArray(int* array, int& arraySize);
+
+
+/**
+	Purpose: Delete duplicate scores in sorted integer dynamic array.
+	Input: array as int dynamic array
+		   arraySize as number of elements in given array as int reference
+	Input Requirements: Given array is sorted in ascending order
+						Number of elements in given array is equal to given arraySize
+						arraySize should be >= 0
+	Result: Duplicate scores in given array are removed
+			arraySize is changed to number of elements removed + 1
+**/
+void  deleteDuplicateScoresInGivenArray(int* array, int& arraySize);
+
 /**
 	Purpose: Function to run when user chooses option 4: Print out top three scores for each course.
 	Input: courseArray as array of struct Course variables
@@ -278,3 +282,19 @@ void  deleteRepeatScoresInStudentArray(int* array, int& arraySize);
 				So the top 2 score and the id and name ofthe Student objects who have those scores will be printed out
 **/
 void printOutTopNStudentsForEachCourse(struct Course* courseArray, int arraySize, int n);
+
+
+
+// Clean up
+/**
+	Purpose: Deallocates the dynamic arrays pointed to by the list member variable of
+			 each struct variable in given courseArray.
+	Input: courseArray as array of type struct Course
+		   arraySize as the size of the courseArray as int
+``	Input Requirements: Number of elements in courseArray should be same as arraySize
+						courseArray has type of struct Course
+						arraySize is greater than 0
+						arraySize is an int
+	Result: The dynamic array pointed to by the list variable of each struct Course variable is deallocated
+**/
+void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize);

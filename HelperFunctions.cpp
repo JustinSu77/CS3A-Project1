@@ -2,7 +2,7 @@
 #include "HelperFunctions.h"
 #include "Student.h"
 
-
+// Files
 void getFilesToOpen(string* filesToOpen, int arraySize)
 {
 	// Declare and initialize variable to store fileName
@@ -44,7 +44,8 @@ void checkIfFilesExist(string* filesToOpen, int arraySize)
 		inputFile.close();
 	}
 }
-
+ 
+// Create Data Structure
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize)
 {
 	// Declare ifstream object to read file
@@ -96,19 +97,8 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 	}
 }
 
-void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
-{
-	// Loop through given courseArray 
-	for (int i = 0; i < arraySize; i++)
-	{
-		// Declare and store current element of courseArray
-		struct Course course = courseArray[i];
-		// Deallocate thst Student dynamic array pointed by the list of the current course struct
-		delete[] course.list;
-	}
 
-}
-
+// User interaction
 void showMenu(char& userChoice)
 {
 	// Prompt user for the 5 tasks to run to this program
@@ -172,7 +162,7 @@ void runProgram(struct Course* array, int arraySize)
 	}
 }
 
-
+// Task 1: Show all course Lists
 void insertionSortById(Student* array, int arraySize)
 {
 	// Declare variables used
@@ -240,6 +230,8 @@ void showAllCourseLists(struct Course* array, int arraySize)
 	}
 }
 
+
+// Task 2: List of Students who take all three courses
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree)
 {
 	// Declare and initialize variable to store the number of students in given courseOne
@@ -358,6 +350,7 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
 }
 
+// Task 3: List of students who take 2 courses
 bool idExistsInList(Student* list, int listSize, int targetId)
 {
 	// Loop through given list of Student objects
@@ -374,7 +367,7 @@ bool idExistsInList(Student* list, int listSize, int targetId)
 	// Otherwise return false
 	return false;
 }
-
+ 
 
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
@@ -475,8 +468,9 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
-}
 
+}
+// Task 4: Print out top scores for each course
 void insertionSortByScore(Student* array, int arraySize)
 {
 	// Declare variables used
@@ -529,7 +523,7 @@ int* getStudentGrades(Student* array, int arraySize)
 }
 
 
-void deleteRepeatScoresInStudentArray(int* array, int& arraySize)
+void deleteDuplicateScoresInGivenArray(int* array, int& arraySize)
 {
 
 	int removed = 0;
@@ -572,7 +566,7 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		insertionSortByScore(list, courseSize);
 		int copyOfCourseSize = courseSize;
 		int* studentGrades = getStudentGrades(list, copyOfCourseSize);
-		deleteRepeatScoresInStudentArray(studentGrades, copyOfCourseSize);
+		deleteDuplicateScoresInGivenArray(studentGrades, copyOfCourseSize);
 
 		if (n > copyOfCourseSize)
 		{
@@ -609,4 +603,18 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		cout << endl;
 		n = initialN;
 	}
+}
+
+// Clean up
+void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
+{
+	// Loop through given courseArray 
+	for (int i = 0; i < arraySize; i++)
+	{
+		// Declare and store current element of courseArray
+		struct Course course = courseArray[i];
+		// Deallocate thst Student dynamic array pointed by the list of the current course struct
+		delete[] course.list;
+	}
+
 }
