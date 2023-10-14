@@ -5,7 +5,6 @@
 	Purpose: Student.h for Project #1
 **/
 #include <iostream>
-#include <string>
 #include <fstream>
 #include <iomanip>
 using namespace std;
