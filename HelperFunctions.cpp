@@ -61,6 +61,12 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 		string title = "";
 		// Read in the data
 		inputFile >> title >> numberOfStudents;
+		if (numberOfStudents <= 0)
+		{
+			cout << endl;
+			cout << fileName << " has no students " << endl;
+			exit(1);
+		}
 		// Declare and initialize the Student dynamic array to store Student objects with the next 3 data
 		Student* studentArray = new Student[numberOfStudents];
 		// Declare the variables needed for the next 3 data
