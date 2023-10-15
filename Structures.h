@@ -15,11 +15,11 @@ struct AllThreeCoursesData
 	int id;
 	string name;
 	string courseOneTitle;
-	int courseOneGrade;
+	int courseOneScore;
 	string courseTwoTitle;
-	int courseTwoGrade;
+	int courseTwoScore;
 	string courseThreeTitle;
-	int courseThreeGrade;
+	int courseThreeScore;
 
 };
  

@@ -281,7 +281,34 @@ int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course c
 	return total;
 }
 
-struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int total,Course courseOne, Course courseTwo, Course courseThree)
+void sortAllThreeCoursesDataArrayById(AllThreeCoursesData* array, int arraySize)
+{
+	// Declare variables used
+	int j;
+	// Loop through given array
+	for (int i = 1; i < arraySize; i++)
+	{
+		// Set key to current element
+		AllThreeCoursesData key = array[i];
+		// Set j to element before current element
+		j = i - 1;
+		// Compare the id of the key element to the id of the element before it
+		// If id of key element is smaller keep comparing with each of the elements before it
+		// Swap the key element with the its previous element if its id is smaller
+		while (j >= 0 && array[j].id > key.id)
+		{
+			// Swap element
+			array[j + 1] = array[j];
+			// Go to element before
+			j--;
+		}
+		// Insert key element into position where its id is greater than the element before it
+		array[j + 1] = key;
+	}
+
+}
+
+struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,Course courseOne, Course courseTwo, Course courseThree)
 {
 	// Declare and initialize variable to store the number of students in courseOne
 	int courseOneSize = courseOne.number_of_students;
@@ -301,7 +328,7 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int total,Course c
 	string courseTwoTitle = courseTwo.title;
 	// Declare and initialize variable to store the title name of courseThree
 	string courseThreeTitle = courseThree.title;
-	struct AllThreeCoursesData* result = new AllThreeCoursesData[total];
+	struct AllThreeCoursesData* result = new AllThreeCoursesData[totalStudents]{};
 	int resultIndex = 0;
 	// Loop through courseOneList
 	for (int i = 0; i < courseOneSize; i++)
@@ -322,13 +349,14 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int total,Course c
 				if (fromCourseOne.getId() == fromCourseTwo.getId()
 					&& fromCourseOne.getId() == fromCourseThree.getId())
 				{
-					struct AllThreeCoursesData data = { fromCourseOne.getId(),fromCourseOne.getName(), courseOneTitle, fromCourseOne.getScore(), courseTwoTitle, fromCourseTwo.getScore() };
-					result[resultIndex] = data;
-					resultIndex++;
-					/*cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
-						<< "    " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
-						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
-						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;*/
+					struct AllThreeCoursesData data = { fromCourseOne.getId(),fromCourseOne.getName(), courseOneTitle, fromCourseOne.getScore(), courseTwoTitle, fromCourseTwo.getScore(), courseThreeTitle, fromCourseThree.getScore()};
+					if (resultIndex < totalStudents)
+					{
+						result[resultIndex] = data;
+						resultIndex++;
+					}
+					
+					
 
 				}
 			}
@@ -336,6 +364,19 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int total,Course c
 	}
 	return result;
 
+}
+
+void outputAllThreeCoursesDataArray(AllThreeCoursesData* array, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		AllThreeCoursesData data = array[i];
+		cout << "  " << data.id<< setw(10) << data.name
+						<< "    " << data.courseOneTitle << "(" << data.courseOneScore << ")"
+						<< "  " << data.courseTwoTitle << "(" << data.courseTwoScore << ")" << "  "
+						<< data.courseThreeTitle << "(" << data.courseThreeScore << ")  " << endl;
+	}
+	cout << endl;
 }
 
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
@@ -355,7 +396,10 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	cout << "               There are " << students << " student(s) who take 3 courses               " << endl;
 	cout << "----------------------------------------------------------------------" << endl;
 	// Output the id, name, and grade in each course of students who take all 3 courses 
-	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
+	struct AllThreeCoursesData* array = getStudentsWhoTakeAllThreeCourses(students,courseOne, courseTwo, courseThree);
+	sortAllThreeCoursesDataArrayById(array, students);
+	outputAllThreeCoursesDataArray(array, students);
+	delete[] array;
 }
 
 // Task 3: List of students who take 2 courses

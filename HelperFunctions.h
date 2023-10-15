@@ -126,19 +126,12 @@ void showAllCourseLists(struct Course* array, int arraySize);
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 
 
-
+void sortAllThreeCoursesDataArrayById(struct AllThreeCoursesData* array, int arraySize);
 
 struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 
 
-/**
-	Purpose: Function to be called when user chooses the option of List of students who take all courses.
-	Input: courseArray as array with type of struct Course
-	Input requirements: Given courseArray is filled with struct Course variables with data from given text files
-	Result: The number of id that exists in the lists of all the courses is outputted to terminal.
-			The id, name, and score from all three courses of Student objects
-			whose id exists in list of all the courses is outputted	to the terminal in ascending order based on id
-**/
+void outputAllThreeCoursesDataArray(struct AllThreeCoursesData* array, int arraySize);
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
 
 
