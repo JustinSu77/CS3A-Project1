@@ -22,4 +22,15 @@ struct AllThreeCoursesData
 	int courseThreeScore;
 
 };
+
+struct OnlyTwoCoursesData
+{
+	int id;
+	string name;
+	string courseOneTitle;
+	int courseOneScore;
+	string courseTwoTitle;
+	int courseTwoScore;
+};
+
  

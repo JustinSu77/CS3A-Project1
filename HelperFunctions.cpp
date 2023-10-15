@@ -1,6 +1,6 @@
 #include "Structures.h"
 #include "HelperFunctions.h"
-#include "Student.h"
+
 
 // Files
 void getFilesToOpen(string* filesToOpen, int arraySize)
@@ -355,9 +355,6 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,
 						result[resultIndex] = data;
 						resultIndex++;
 					}
-					
-					
-
 				}
 			}
 		}
@@ -450,12 +447,10 @@ int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* l
 
 
 
-void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
+struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents,string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
-	// Sort listOne in ascending order by id
-	insertionSortById(listOne, listOneSize);
-	// Sort listTwo in ascending order by id
-	insertionSortById(listTwo, listTwoSize);
+	struct OnlyTwoCoursesData* result = new OnlyTwoCoursesData[totalStudents];
+	int resultIndex = 0;
 	// Loop through listOne
 	for (int i = 0; i < listOneSize; i++)
 	{
@@ -479,11 +474,56 @@ void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, in
 				(!idExistsInList(listThree, listThreeSize, idFromCourseOne)))
 			{
 				// Output the id, name, title of courseOne, score in courseOne, title of CourseTwo, and score in courseTwo of Student object that is in listOne and listTwo but not in listThree neatly formatted
-				cout << " " << idFromCourseOne << setw(12) << nameFromCourseOne << setw(15) << courseOneTitle << "(" << scoreFromCourseOne << ")" << "    " << courseTwoTitle << "(" << scoreFromCourseTwo << ")" << endl;
+				struct OnlyTwoCoursesData data = { idFromCourseOne, nameFromCourseOne, courseOneTitle, scoreFromCourseOne, courseTwoTitle, scoreFromCourseTwo };
+				if (resultIndex < totalStudents)
+				{
+					result[resultIndex] = data;
+					resultIndex++;
+				}
+				
 			}
 		}
 
 	}
+	return result;
+
+}
+
+void outputOnlyTwoCoursesDataArray(OnlyTwoCoursesData* array, int arraySize)
+{
+	for (int i = 0; i < arraySize; i++)
+	{
+		OnlyTwoCoursesData data = array[i];
+		cout << " " << data.id << setw(12) << data.name << setw(15) << data.courseOneTitle << "(" << data.courseOneScore << ")" << "    " << data.courseTwoTitle << "(" << data.courseTwoScore << ")" << endl;
+	}
+	cout << endl;
+}
+
+void sortOnlyTwoCoursesDataArrayById(OnlyTwoCoursesData* array, int arraySize)
+{
+	// Declare variables used
+	int j;
+	// Loop through given array
+	for (int i = 1; i < arraySize; i++)
+	{
+		// Set key to current element
+		OnlyTwoCoursesData key = array[i];
+		// Set j to element before current element
+		j = i - 1;
+		// Compare the id of the key element to the id of the element before it
+		// If id of key element is smaller keep comparing with each of the elements before it
+		// Swap the key element with the its previous element if its id is smaller
+		while (j >= 0 && array[j].id > key.id)
+		{
+			// Swap element
+			array[j + 1] = array[j];
+			// Go to element before
+			j--;
+		}
+		// Insert key element into position where its id is greater than the element before it
+		array[j + 1] = key;
+	}
+
 
 }
 
@@ -500,7 +540,10 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << "     There are " << studentsOne << " student(s) who take " << courseOne.title << " and " << courseTwo.title << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseTwo but not in courseThree
-	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
+	struct OnlyTwoCoursesData* data = getStudentsWhoOnlyTakeTwoCourses(studentsOne,courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
+	sortOnlyTwoCoursesDataArrayById(data, studentsOne);
+	outputOnlyTwoCoursesDataArray(data, studentsOne);
+	delete[] data;
 	// Skip a line in terminal for readability
 	cout << endl;
 	// Store number of students who are in courseOne and courseThree but not in courseTwo
@@ -510,7 +553,10 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << "-------------------------------------------------------------------" << endl;
 
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
-	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
+	data = getStudentsWhoOnlyTakeTwoCourses(studentsTwo,courseOne.title, courseOne.list, courseOne.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
+	sortOnlyTwoCoursesDataArrayById(data, studentsTwo);
+	outputOnlyTwoCoursesDataArray(data, studentsTwo);
+	delete[] data;
 	// Skip a line in terminal for readability
 	cout << endl;
 	// Store number of students who are in courseTwo and courseThree but not in courseOne
@@ -519,8 +565,10 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << "     There are " << studentsThree << " student(s) who take " << courseTwo.title << " and " << courseThree.title << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
-	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
-
+	 data =getStudentsWhoOnlyTakeTwoCourses(studentsThree, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
+	 sortOnlyTwoCoursesDataArrayById(data, studentsThree);
+	 outputOnlyTwoCoursesDataArray(data, studentsThree);
+	 delete[] data;
 }
 // Task 4: Print out top scores for each course
 void insertionSortByScore(Student* array, int arraySize)

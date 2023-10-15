@@ -167,10 +167,16 @@ bool idExistsInList(Student* list, int listSize, int targetId);
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
 
-void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
 
-// Task 4: Print out top scores for each course
+struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents ,string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
+
+void outputOnlyTwoCoursesDataArray(struct OnlyTwoCoursesData* array, int arraySize);
+ 
+void sortOnlyTwoCoursesDataArrayById(struct OnlyTwoCoursesData* array, int arraySize);
+
+
+
 /**
 	Purpose: Function to be called when user chooses the option of List of students who take two courses.
 	Input: courseArray is array of struct Course variables
