@@ -1,5 +1,5 @@
 #pragma once
-#include "CourseStruct.h"
+#include "Structures.h"
 
 // Files
 /**
@@ -179,31 +179,7 @@ bool idExistsInList(Student* list, int listSize, int targetId);
 
 int totalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
-/**
-	Purpose: Function to be called when user chooses option 3: List of students who take two courses.
-	Input: courseOneTitle as string
-		   listOne as dynamic array of Student objects
-		   listOneSize as number of elements in listOne
-		   courseTwoTitle as string
-		   listTwo as dynamic array of Student objects
-		   listTwoSize as number of elements in listTwo
-		   listThree as dynamic array of Student objects
-		   listThreeSize as dynamic array of Student object
-	Input Requirement: courseOneTitle should be a string
-					   courseTwoTitle should be a string
-					   Number of elements in listOne should be equal to listOneSize
-					   Number of elements in listTwo should be equal to listTwoSize
-					   Number of elements in listThree should be equal to listThreeSize
-					   listOneSize should be an integer
-					   listTwoSize should be an integer
-					   listThreeSize should be an integer
-					   listOne should be a pointer to a string dynamic array
-					   listTwo should be a pointer to a string dynamic array
-					   listThree should be a pointer to a string dynamic array
-	Result: The number of students who take each pairing of courses is outputted.
-			For each pairing, the id, name, name of each course and the score of the Student object that exists in listOne and listTwo but not
-			listThree is outputted to the screen.
-**/
+
 void outputStudentsWhoTakeTwoCourses(string courseOneTitle, Student* listOne, int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
 

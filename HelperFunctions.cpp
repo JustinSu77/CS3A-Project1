@@ -1,4 +1,4 @@
-#include "CourseStruct.h"
+#include "Structures.h"
 #include "HelperFunctions.h"
 #include "Student.h"
 
@@ -62,10 +62,14 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 		string title = "";
 		// Read in the data
 		inputFile >> title >> numberOfStudents;
+		// If after reading in value for numberOfStudents and the value is still 0
 		if (numberOfStudents <= 0)
 		{
+			// Output new line for readability in terminal
 			cout << endl;
+			// Notify
 			cout << fileName << " has no students " << endl;
+			// Exit program with error code 1
 			exit(1);
 		}
 		// Declare and initialize the Student dynamic array to store Student objects with the next 3 data
@@ -344,7 +348,7 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	// Output new line for readability in terminal
 	cout << endl;
 	// Output how many studentts take all 3 courses
-	cout << "               There are " << students << " students who take 3 courses               " << endl;
+	cout << "               There are " << students << " student(s) who take 3 courses               " << endl;
 	cout << "----------------------------------------------------------------------" << endl;
 	// Output the id, name, and grade in each course of students who take all 3 courses 
 	outputStudentsWhoTakeAllThreeCourses(courseOne, courseTwo, courseThree);
@@ -445,7 +449,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	int studentsOne = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	cout << endl;
 	// Output number of students who are in courseOne and courseTwo but not in courseThree
-	cout << "     There are " << studentsOne << " students who take " << courseOne.title << " and " << courseTwo.title << endl;
+	cout << "     There are " << studentsOne << " student(s) who take " << courseOne.title << " and " << courseTwo.title << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseTwo but not in courseThree
 	outputStudentsWhoTakeTwoCourses(courseOne.title, courseOne.list, courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
@@ -454,7 +458,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	// Store number of students who are in courseOne and courseThree but not in courseTwo
 	int studentsTwo = totalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, courseThree.list, courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Output number of students who are in courseOne and courseThree but not in courseTwo
-	cout << "     There are " << studentsTwo << " students who take " << courseOne.title << " and " << courseThree.title << endl;
+	cout << "     There are " << studentsTwo << " student(s) who take " << courseOne.title << " and " << courseThree.title << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
@@ -464,7 +468,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	// Store number of students who are in courseTwo and courseThree but not in courseOne
 	int studentsThree = totalStudentsWhoTakeTwoCourses(courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 	// Output number of students who are in courseTwo and courseThree but not in courseTwo
-	cout << "     There are " << studentsThree << " students who take " << courseTwo.title << " and " << courseThree.title << endl;
+	cout << "     There are " << studentsThree << " student(s) who take " << courseTwo.title << " and " << courseThree.title << endl;
 	cout << "-------------------------------------------------------------------" << endl;
 	// Output the Student objects who are in courseOne and courseThree but not in courseTwo
 	outputStudentsWhoTakeTwoCourses(courseTwo.title, courseTwo.list, courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
@@ -580,6 +584,10 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 			// Output course title and Top Score
 			cout << "[  " << title << " Top Score  ]" << endl;
 		}
+		else if (n == 3)
+		{
+			cout << "[  " << title << " Top Three Scores  ]" << endl;
+		}
 		// Otherwise
 		else
 		{
@@ -594,13 +602,14 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 			int score = studentGrades[arrayIndex];
 			cout << scoresSeen + 1 << ". " << score << endl;
 			printStudentsWithGivenScore(list, courseSize, score);
-			cout << endl;
 			scoresSeen++;
 			arrayIndex--;
 		}
-		delete[] studentGrades;
 		// Output newline to terminal for readability
 		cout << endl;
+		delete[] studentGrades;
+
+		// Reset given to value of n before loop
 		n = initialN;
 	}
 }

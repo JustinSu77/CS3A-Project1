@@ -3,8 +3,7 @@
 	By: Justin Su
 	Purpose: main.cpp for Project #1
 **/
-#include "CourseStruct.h"
-#include "Student.h"
+
 #include "HelperFunctions.h"
  
 int main()
