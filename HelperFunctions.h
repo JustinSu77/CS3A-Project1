@@ -125,16 +125,10 @@ void showAllCourseLists(struct Course* array, int arraySize);
 **/
 int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 
-/**
-	Purpose: Output the id, name, and score of the Student object whose id exists in the Student lists of the given struct Course		   variables courseOne, courseTwo, and courseThree.
-	Input: courseOne as struct Course variable
-		   CourseTwo as struct Course variable
-		   courseThree as struct Course variable
-	Input requirements: struct variables of given courseOne, courseTwo, and courseThree are initialized
-	Result: The id, name, and score of Student object that exists in given
-			struct Course variables courseOne, courseTwo, courseThree
-**/
-void outputStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course courseTwo, struct Course courseThree);
+
+
+
+struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,struct Course courseOne, struct Course courseTwo, struct Course courseThree);
 
 
 /**

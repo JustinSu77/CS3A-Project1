@@ -281,7 +281,7 @@ int totalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Course c
 	return total;
 }
 
-void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Course courseThree)
+struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int total,Course courseOne, Course courseTwo, Course courseThree)
 {
 	// Declare and initialize variable to store the number of students in courseOne
 	int courseOneSize = courseOne.number_of_students;
@@ -301,6 +301,8 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 	string courseTwoTitle = courseTwo.title;
 	// Declare and initialize variable to store the title name of courseThree
 	string courseThreeTitle = courseThree.title;
+	struct AllThreeCoursesData* result = new AllThreeCoursesData[total];
+	int resultIndex = 0;
 	// Loop through courseOneList
 	for (int i = 0; i < courseOneSize; i++)
 	{
@@ -320,17 +322,19 @@ void outputStudentsWhoTakeAllThreeCourses(Course courseOne, Course courseTwo, Co
 				if (fromCourseOne.getId() == fromCourseTwo.getId()
 					&& fromCourseOne.getId() == fromCourseThree.getId())
 				{
-					// Output the id, name of Student, title of courseOne, score in course one, 
-					// title of courseTwo, score in courseTwo, title of courseThree, and score in courseThree neatly formatted
-					cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
+					struct AllThreeCoursesData data = { fromCourseOne.getId(),fromCourseOne.getName(), courseOneTitle, fromCourseOne.getScore(), courseTwoTitle, fromCourseTwo.getScore() };
+					result[resultIndex] = data;
+					resultIndex++;
+					/*cout << "  " << fromCourseOne.getId() << setw(10) << fromCourseOne.getName()
 						<< "    " << courseOneTitle << "(" << fromCourseOne.getScore() << ")"
 						<< "  " << courseTwoTitle << "(" << fromCourseTwo.getScore() << ")" << "  "
-						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;
+						<< courseThreeTitle << "(" << fromCourseThree.getScore() << ")  " << endl;*/
 
 				}
 			}
 		}
 	}
+	return result;
 
 }
 
