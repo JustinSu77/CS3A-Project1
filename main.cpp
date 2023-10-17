@@ -6,7 +6,7 @@
 
 #include "Student.h"
 #include <iostream>
-#include <ifstream>
+#include <fstream>
 #include <string>
 #include <iomanip>
 
