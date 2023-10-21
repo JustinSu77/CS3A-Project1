@@ -1,9 +1,8 @@
 /**
-	Date: 10/1/2023
+	Date: 10/20/2023
 	By: Justin Su
 	Purpose: Student.cpp for Project #1
 **/
-
 #include "Student.h"
 
 Student::Student()

@@ -1,13 +1,13 @@
 #pragma once
 /**
-	Date: 10/1/2023
+	Date: 10/20/2023
 	By: Justin Su
 	Purpose: Student.h for Project #1
 **/
-#include <iostream>
-#include <fstream>
-#include <iomanip>
+// Student class
+#include "string"
 using namespace std;
+
 // Student class
 class Student
 {
@@ -28,7 +28,10 @@ class Student
 
 		/**
 			Purpose: Constructor with 3 arguments.
-			Precondition: Student object is istantiated
+			Input: newId as new value for private member variable id as int
+				   newName as new value for private member variable name as string
+				   newScore as new value for private member variable score as int
+			Precondition: Student object should be instantiated
 			Result: Private member variable id is set to newId
 					Private member variable name is set to newName
 					Private member variable score is set to newScore
@@ -47,7 +50,7 @@ class Student
 			Purpose: Setter function for private member variable name
 			Input: newName as new value for private member variable name as string
 			Precondition: Student object is instantiated
-			Result: The Student calling object has its private mmeber variable name set to given newName
+			Result: The Student calling object has its private member variable name set to given newName
 		**/
 		void setName(string newName);
 
