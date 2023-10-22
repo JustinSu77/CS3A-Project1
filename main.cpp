@@ -61,7 +61,8 @@ struct OnlyTwoCoursesData
 	// Store the score from second course
 	int courseTwoScore;
 };
- // Files
+ 
+// Files
 /**
 	Purpose: Prompt user for name of file to be opened and store user input to string dynamic array.
 	Input: filesToOpen as string dynamic array
@@ -106,6 +107,7 @@ void checkIfFilesExist(string* filesToOpen, int arraySize);
 **/
 void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, int arraySize);
 
+
 // User Interaction
 /**
 	Purpose: Promp user with a menu with choices numbered 1-5. 
@@ -116,6 +118,7 @@ void fillCourseArrayFromFiles(struct Course* courseArray, string* filesToOpen, i
 	Result: The value user entered after being prompted is the value of the given userChoice reference
 **/
 void showMenu(char& userChoice);
+
 
 // Task 1: Show All Course Lists
 /**
@@ -189,7 +192,7 @@ int getTotalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Cours
 	Result: A pointer to dynamic array filled with data of Student object that exists 
 		    in given courseOne, courseTwo, and courseThree is     returned
 **/
-struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents, struct Course courseOne, 
+struct AllThreeCoursesData* getDataOfStudentsWhoTakeAllThreeCourses(int totalStudents, struct Course courseOne, 
 	struct Course courseTwo, struct Course courseThree);
 
 /**
@@ -206,7 +209,6 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,
 			variable that is sorted in asecending order based on their id
 **/
 void sortAllThreeCoursesDataArrayById(struct AllThreeCoursesData* array, int arraySize);
-
 
 /**
 	Purpose: Outputs the data in each element of given array neatly formatted to terminal.
@@ -229,7 +231,6 @@ void outputAllThreeCoursesDataArray(struct AllThreeCoursesData* array, int array
 	Result: Outputs the data in the struct AllThreeCoursesData neatly to terminal
 **/
 void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray);
-
 
 
 // Task 3: List of students who take only take 2 courses
@@ -264,7 +265,7 @@ bool idExistsInList(Student* list, int listSize, int targetId);
 						Number of elements in given listThree should be equal to given listThreeSize
 	Result: The number of students that are both in listOne and listTwo but not in listThree is returned.
 **/
-int getTotalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, 
+int getTotalStudentsWhoOnlyTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, 
 	Student* listThree, int listThreeSize);
 
 /**
@@ -288,7 +289,7 @@ int getTotalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student
 	Result: A pointer to dynamic array of type struct OnlyTwoCoursesData is returned.
 					   
 **/
-struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents, string courseOneTitle, Student* listOne, 
+struct OnlyTwoCoursesData* getDataOfStudentsWhoOnlyTakeTwoCourses(int totalStudents, string courseOneTitle, Student* listOne, 
 	int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize);
 
 /**
@@ -306,8 +307,6 @@ struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents, s
 **/
 void sortOnlyTwoCoursesDataArrayById(struct OnlyTwoCoursesData* array, int arraySize);
 
-
-
 /**
 	Purpose: Outputs the data in each element of given array neatly formatted to terminal.
 			 Helper function for option 3 listOfStudentsWhoTakeTwoCourses.
@@ -321,7 +320,6 @@ void sortOnlyTwoCoursesDataArrayById(struct OnlyTwoCoursesData* array, int array
 	Result: The data of each struct AllThreeCourseData variable in the given array is outputted neatly to the terminal
 **/
 void outputOnlyTwoCoursesDataArray(struct OnlyTwoCoursesData* array, int arraySize);
-
 
 /**
 	Purpose: Function to be called when user chooses the option 3 List of students who take two courses.
@@ -347,7 +345,6 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray);
 **/
 void insertionSortByScore(Student* array, int arraySize);
 
-
 /**
 	Purpose: Return a pointer to dynamic array filled with scores from given Student array.
 			 Helper function for option 4 printOutTopNStudentsForEachCourse
@@ -358,7 +355,6 @@ void insertionSortByScore(Student* array, int arraySize);
 	Result: Return a pointer to dynamic array filled with scores from given Student array
 **/
 int* getStudentGrades(Student* array, int arraySize);
-
 
 /**
 	Purpose: Delete duplicate scores in sorted integer dynamic array.
@@ -371,7 +367,7 @@ int* getStudentGrades(Student* array, int arraySize);
 	Result: Duplicate scores in given array are removed
 			arraySize is changed to number of elements removed + 1
 **/
-void  deleteDuplicateScoresInGivenArray(int* array, int& arraySize);
+void  removeDuplicateScoresInGivenArray(int* array, int& arraySize);
 
 /**
 	Purpose: Output the id and score of the Student object that has the given targetScore.
@@ -405,7 +401,6 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 				So the top 2 score and the id and name ofthe Student objects who have those scores will be printed out
 **/
 void printOutTopNStudentsForEachCourse(struct Course* courseArray, int arraySize, int n);
-
 
 
 // Clean up
@@ -655,8 +650,6 @@ void outputStudentList(Student* array, int arraySize)
 	cout << endl;
 }
 
-
-
 void showAllCourseLists(struct Course* array, int arraySize)
 {
 	// Go to next line for readability in terminal
@@ -729,9 +722,7 @@ int getTotalStudentsWhoTakeAllThreeCourses(struct Course courseOne, struct Cours
 	return total;
 }
 
-
-
-struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents, Course courseOne, 
+struct AllThreeCoursesData* getDataOfStudentsWhoTakeAllThreeCourses(int totalStudents, Course courseOne, 
 	Course courseTwo, Course courseThree)
 {
 	// Declare and initialize variable to store the number of students in courseOne
@@ -800,7 +791,6 @@ struct AllThreeCoursesData* getStudentsWhoTakeAllThreeCourses(int totalStudents,
 	}
 	// Return result dynamic array
 	return result;
-
 }
 
 void sortAllThreeCoursesDataArrayById(AllThreeCoursesData* array, int arraySize)
@@ -827,7 +817,6 @@ void sortAllThreeCoursesDataArrayById(AllThreeCoursesData* array, int arraySize)
 		// Insert key element into position where its id is greater than the element before it
 		array[j + 1] = key;
 	}
-
 }
 
 void outputAllThreeCoursesDataArray(AllThreeCoursesData* array, int arraySize)
@@ -865,11 +854,12 @@ void listOfStudentsWhoTakeAllThreeCourses(struct Course* courseArray)
 	cout << "               There are " << students << " students who take 3 courses               " << endl;
 	cout << "----------------------------------------------------------------------------" << endl;
 	// Output the id, name, and grade in each course of students who take all 3 courses 
-	struct AllThreeCoursesData* array = getStudentsWhoTakeAllThreeCourses(students, courseOne, courseTwo, courseThree);
+	struct AllThreeCoursesData* array = getDataOfStudentsWhoTakeAllThreeCourses(students, courseOne, courseTwo, courseThree);
 	sortAllThreeCoursesDataArrayById(array, students);
 	outputAllThreeCoursesDataArray(array, students);
 	delete[] array;
 }
+
 
 // Task 3: List of students who take 2 courses
 bool idExistsInList(Student* list, int listSize, int targetId)
@@ -889,8 +879,7 @@ bool idExistsInList(Student* list, int listSize, int targetId)
 	return false;
 }
 
-
-int getTotalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, 
+int getTotalStudentsWhoOnlyTakeTwoCourses(Student* listOne, int listOneSize, Student* listTwo, int listTwoSize, 
 	Student* listThree, int listThreeSize)
 {
 	// Declare and Initialize total counter for 
@@ -918,7 +907,7 @@ int getTotalStudentsWhoTakeTwoCourses(Student* listOne, int listOneSize, Student
 	return total;
 }
 
-struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents, string courseOneTitle, Student* listOne, 
+struct OnlyTwoCoursesData* getDataOfStudentsWhoOnlyTakeTwoCourses(int totalStudents, string courseOneTitle, Student* listOne, 
 	  int listOneSize, string courseTwoTitle, Student* listTwo, int listTwoSize, Student* listThree, int listThreeSize)
 {
 	struct OnlyTwoCoursesData* result = new OnlyTwoCoursesData[totalStudents];
@@ -970,23 +959,6 @@ struct OnlyTwoCoursesData* getStudentsWhoOnlyTakeTwoCourses(int totalStudents, s
 	}
 	// Return result dynamic array
 	return result;
-
-}
-
-void outputOnlyTwoCoursesDataArray(OnlyTwoCoursesData* array, int arraySize)
-{
-	// Loop through OnlyTwoCoursesData dynamic array
-	for (int i = 0; i < arraySize; i++)
-	{
-		// Save OnlyTwoCourseData variable at current index
-		OnlyTwoCoursesData data = array[i];
-		// Output member variables of current OnlyTwoCoursesData 
-		// variable neatly to terminal
-		cout << " " << data.id <<  " " << setw(12) << data.name << "    " << data.courseOneTitle << "(" 
-			 << data.courseOneScore << ")" << "    " << data.courseTwoTitle << "(" << data.courseTwoScore 
-			 << ")" << endl;
-	}
-	cout << endl;
 }
 
 void sortOnlyTwoCoursesDataArrayById(OnlyTwoCoursesData* array, int arraySize)
@@ -1017,6 +989,22 @@ void sortOnlyTwoCoursesDataArrayById(OnlyTwoCoursesData* array, int arraySize)
 
 }
 
+void outputOnlyTwoCoursesDataArray(OnlyTwoCoursesData* array, int arraySize)
+{
+	// Loop through OnlyTwoCoursesData dynamic array
+	for (int i = 0; i < arraySize; i++)
+	{
+		// Save OnlyTwoCourseData variable at current index
+		OnlyTwoCoursesData data = array[i];
+		// Output member variables of current OnlyTwoCoursesData 
+		// variable neatly to terminal
+		cout << " " << data.id <<  " " << setw(12) << data.name << "    " << data.courseOneTitle << "(" 
+			 << data.courseOneScore << ")" << "    " << data.courseTwoTitle << "(" << data.courseTwoScore 
+			 << ")" << endl;
+	}
+	cout << endl;
+}
+
 void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 {
 	// Save the struct Course variables into seperate variables
@@ -1025,7 +1013,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	struct Course courseThree = courseArray[2];
 
 	// Get number of students who are in courseOne and courseTwo but not in courseThree
-	int studentsOne = getTotalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, 
+	int studentsOne = getTotalStudentsWhoOnlyTakeTwoCourses(courseOne.list, courseOne.number_of_students, 
 		courseTwo.list, courseTwo.number_of_students, courseThree.list, courseThree.number_of_students);
 	// Output newline to terminal for readability
 	cout << endl;
@@ -1034,7 +1022,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 		<< " and " << courseTwo.title << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	// Get data of the Students objects who are in courseOne and courseTwo but not in courseThree as dynamic array
-	struct OnlyTwoCoursesData* data = getStudentsWhoOnlyTakeTwoCourses(studentsOne, courseOne.title, courseOne.list, 
+	struct OnlyTwoCoursesData* data = getDataOfStudentsWhoOnlyTakeTwoCourses(studentsOne, courseOne.title, courseOne.list, 
 		courseOne.number_of_students, courseTwo.title, courseTwo.list, courseTwo.number_of_students, 
 		courseThree.list, courseThree.number_of_students);
 	// Sort the data dynamic array
@@ -1045,7 +1033,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	delete[] data;
 	 
 	// Store number of students who are in courseOne and courseThree but not in courseTwo
-	int studentsTwo = getTotalStudentsWhoTakeTwoCourses(courseOne.list, courseOne.number_of_students, 
+	int studentsTwo = getTotalStudentsWhoOnlyTakeTwoCourses(courseOne.list, courseOne.number_of_students, 
 		courseThree.list,courseThree.number_of_students, courseTwo.list, courseTwo.number_of_students);
 	// Output number of students who are in courseOne and courseThree but not in courseTwo
 	cout << "  There are " << studentsTwo << " students who take " << courseOne.title 
@@ -1053,7 +1041,7 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	cout << "-----------------------------------------------------------------" << endl;
 
 	// Get data of the Students objects who are in courseOne and courseThree but not in courseTwo as dynamic array
-	data = getStudentsWhoOnlyTakeTwoCourses(studentsTwo, courseOne.title, courseOne.list,
+	data = getDataOfStudentsWhoOnlyTakeTwoCourses(studentsTwo, courseOne.title, courseOne.list,
 		  courseOne.number_of_students,courseThree.title, courseThree.list, courseThree.number_of_students, 
 		courseTwo.list, courseTwo.number_of_students);
 	// Sort the data dynamic array
@@ -1064,14 +1052,14 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	delete[] data;
 	 
 	// Store number of students who are in courseTwo and courseThree but not in courseOne
-	int studentsThree = getTotalStudentsWhoTakeTwoCourses(courseTwo.list, courseTwo.number_of_students, 
+	int studentsThree = getTotalStudentsWhoOnlyTakeTwoCourses(courseTwo.list, courseTwo.number_of_students, 
 		courseThree.list,courseThree.number_of_students, courseOne.list, courseOne.number_of_students);
 	// Output number of students who are in courseTwo and courseThree but not in courseOne
 	cout << "  There are " << studentsThree << " students who take " << courseTwo.title 
 		<< " and " << courseThree.title << endl;
 	cout << "-----------------------------------------------------------------" << endl;
 	// Get data of the Students objects who are in courseTwo and courseThree but not in courseOne as dynamic array
-	data = getStudentsWhoOnlyTakeTwoCourses(studentsThree, courseTwo.title, courseTwo.list, 
+	data = getDataOfStudentsWhoOnlyTakeTwoCourses(studentsThree, courseTwo.title, courseTwo.list, 
 		courseTwo.number_of_students, courseThree.title, courseThree.list, courseThree.number_of_students, 
 		courseOne.list, courseOne.number_of_students);
 	// Sort the data dynamic array
@@ -1081,6 +1069,8 @@ void listOfStudentsWhoTakeTwoCourses(struct Course* courseArray)
 	// Deallocate the data dynamic array
 	delete[] data;
 }
+
+
 // Task 4: Print out top scores for each course
 void insertionSortByScore(Student* array, int arraySize)
 {
@@ -1118,7 +1108,7 @@ int* getStudentGrades(Student* array, int arraySize)
 	return newArray;
 }
 
-void deleteDuplicateScoresInGivenArray(int* array, int& arraySize)
+void removeDuplicateScoresInGivenArray(int* array, int& arraySize)
 {
 	// Declare and initialize counter to keep 
 	// track of number of elements removed
@@ -1157,9 +1147,6 @@ void printStudentsWithGivenScore(Student* array, int arraySize, int targetScore)
 	}
 }
 
-
-
-
 void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n)
 {
 	// Skip a line in terminal for readability
@@ -1186,7 +1173,7 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 		// Get the grades of students as an integer dynamic array
 		int* studentGrades = getStudentGrades(list, copyOfCourseSize);
 		// Remove the duplicates from the integer dynamic array
-		deleteDuplicateScoresInGivenArray(studentGrades, copyOfCourseSize);
+		removeDuplicateScoresInGivenArray(studentGrades, copyOfCourseSize);
 		// Want to make this function more universal 
 		// and not just for top 3 students
 		// For situations when there is not enough students in the course 
@@ -1241,6 +1228,7 @@ void printOutTopNStudentsForEachCourse(Course* courseArray, int arraySize, int n
 	}
 }
 
+
 // Clean up
 void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySize)
 {
@@ -1252,10 +1240,4 @@ void deallocateStudentListInCourseArray(struct Course* courseArray, int arraySiz
 		// Deallocate thst Student dynamic array pointed by the list of the current course struct
 		delete[] course.list;
 	}
-
 }
-
-
-
-
- 
