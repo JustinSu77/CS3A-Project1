@@ -1,8 +1,10 @@
 /**
+	Name: Justin Su
 	Date: 10/20/2023
-	By: Justin Su
+	Assignment Title: Project 1
 	Purpose: Student.cpp for Project #1
 **/
+
 #include "Student.h"
 
 Student::Student()
